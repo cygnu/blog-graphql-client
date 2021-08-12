@@ -20,3 +20,21 @@ export const GET_TOKEN = gql`
     }
   }
 `
+
+export const CREATE_LINK_IN_BIO = gql`
+  mutation($githubUrl: String!, $qiitaUrl: String, $twitterUrl: String, $websiteUrl: String) {
+    createLinkInBio(input: {
+      githubUrl: $githubUrl,
+      qiitaUrl: $qiitaUrl,
+      twitterUrl: $twitterUrl,
+      websiteUrl: $websiteUrl
+    }) {
+      linkInBio {
+        githubUrl
+        qiitaUrl
+        twitterUrl
+        websiteUrl
+      }
+    }
+  }
+`
