@@ -58,6 +58,26 @@ export const UPDATE_LINK_IN_BIO = gql`
   }
 `
 
+export const ADD_TAG = gql`
+  mutation($name: String!) {
+    addTag(input: { name: $name }) {
+      tag {
+        name
+      }
+    }
+  }
+`
+
+export const REMOVE_TAG = gql`
+  mutation($id: Uuid!) {
+    removeTag(input: { id: $id }) {
+      tag {
+        id
+      }
+    }
+  }
+`
+
 export const CREATE_POST = gql`
   mutation($title: String!, $description: String, $thumbnail: thumbnail, $content: String!, $tags: [String], $category: String!, $is_publish: Boolean!) {
     createPost(input: {
