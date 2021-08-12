@@ -10,6 +10,22 @@ export const GET_VIEWER = gql`
   }
 `
 
+export const GET_CATEGORY = gql`
+  query {
+    category {
+      name
+    }
+  }
+`
+
+export const GET_CATEGORIES = gql`
+  query {
+    allCategories {
+      name
+    }
+  }
+`
+
 export const GET_POST = gql`
   query {
     post {
