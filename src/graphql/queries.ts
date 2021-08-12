@@ -10,6 +10,22 @@ export const GET_VIEWER = gql`
   }
 `
 
+export const GET_TAG = gql`
+  query {
+    tag {
+      name
+    }
+  }
+`
+
+export const GET_TAGS = gql`
+  query {
+    allTags {
+      name
+    }
+  }
+`
+
 export const GET_CATEGORY = gql`
   query {
     category {
