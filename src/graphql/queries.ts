@@ -10,6 +10,24 @@ export const GET_VIEWER = gql`
   }
 `
 
+export const GET_POST = gql`
+  query {
+    post {
+      edges {
+        node {
+          title
+          author
+          thumbnail
+          content
+          tags
+          category
+          updatedAt
+        }
+      }
+    }
+  }
+`
+
 export const GET_POSTS = gql`
   query {
     allPosts {
