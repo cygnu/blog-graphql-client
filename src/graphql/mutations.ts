@@ -57,3 +57,31 @@ export const UPDATE_LINK_IN_BIO = gql`
     }
   }
 `
+
+export const CREATE_POST = gql`
+  mutation($title: String!, $description: String, $thumbnail: thumbnail, $content: String!, $tags: [String], $category: String!, $is_publish: Boolean!) {
+    createPost(input: {
+      title: $title
+      description: $description
+      thumbnail: $thumbnail
+      content: $content
+      tags: $tags
+      category: $category
+      is_publish: $is_publish
+    }) {
+      post {
+        title
+        description
+        thumbnail
+        content
+        tags {
+          name
+        }
+        category {
+          name
+        }
+        is_publish
+      }
+    }
+  }
+`
