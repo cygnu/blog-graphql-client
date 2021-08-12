@@ -85,3 +85,34 @@ export const CREATE_POST = gql`
     }
   }
 `
+
+export const UPDATE_POST = gql`
+  mutation($id: Uuid!, $title: String, $description: String, $thumbnail: thumbnail, $content: String, $tags: [Uuid], $category: String, $is_publish: Boolean!) {
+    createPost(input: {
+      id: $id
+      title: $title
+      description: $description
+      thumbnail: $thumbnail
+      content: $content
+      tags: $tags
+      category: $category
+      is_publish: $is_publish
+    }) {
+      post {
+        id
+        title
+        description
+        thumbnail
+        content
+        tags {
+          name
+        }
+        category {
+          name
+        }
+        is_publish
+      }
+    }
+  }
+`
+
