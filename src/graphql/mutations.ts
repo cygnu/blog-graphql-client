@@ -116,3 +116,12 @@ export const UPDATE_POST = gql`
   }
 `
 
+export const DELETE_POST = gql`
+  mutation($id: Uuid!) {
+    deletePost(input: { id: $id })
+  } {
+    post {
+      id
+    }
+  }
+`
