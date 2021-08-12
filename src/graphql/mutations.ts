@@ -78,6 +78,26 @@ export const REMOVE_TAG = gql`
   }
 `
 
+export const ADD_CATEGORY = gql`
+  mutation($name: String!) {
+    addCategory(input: { name: $name }) {
+      category {
+        name
+      }
+    }
+  }
+`
+
+export const REMOVE_CATEGORY = gql`
+  mutation($id: Uuid!) {
+    removeCategory(input: { id: $id }) {
+      category {
+        id
+      }
+    }
+  }
+`
+
 export const CREATE_POST = gql`
   mutation($title: String!, $description: String, $thumbnail: thumbnail, $content: String!, $tags: [String], $category: String!, $is_publish: Boolean!) {
     createPost(input: {
