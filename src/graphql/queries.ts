@@ -9,3 +9,23 @@ export const GET_VIEWER = gql`
     }
   }
 `
+
+export const GET_POSTS = gql`
+  query {
+    allPosts {
+      edges {
+        node {
+          title
+          author {
+            username
+          }
+          thumbnail
+          tags {
+            name
+          }
+          updatedAt
+        }
+      }
+    }
+  }
+`
