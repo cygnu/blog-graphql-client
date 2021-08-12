@@ -38,3 +38,22 @@ export const CREATE_LINK_IN_BIO = gql`
     }
   }
 `
+
+export const UPDATE_LINK_IN_BIO = gql`
+  mutation($id: Uuid!, $githubUrl: String, $qiitaUrl: String, $twitterUrl: String, $websiteUrl: String) {
+    createLinkInBio(input: {
+      id: $id
+      githubUrl: $githubUrl,
+      qiitaUrl: $qiitaUrl,
+      twitterUrl: $twitterUrl,
+      websiteUrl: $websiteUrl
+    }) {
+      linkInBio {
+        githubUrl
+        qiitaUrl
+        twitterUrl
+        websiteUrl
+      }
+    }
+  }
+`
