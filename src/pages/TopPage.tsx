@@ -3,6 +3,7 @@ import {
   Grid
 } from '@material-ui/core';
 import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
 
 export const TopPage: React.FC = () => {
   return (
