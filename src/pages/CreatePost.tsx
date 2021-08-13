@@ -1,6 +1,7 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Container,
@@ -19,6 +20,27 @@ interface IFormInputs {
   category: string,
   is_publish: boolean,
 }
+
+const schema = Yup.object().shape({
+  title: Yup.string()
+    .max(150, 'Title must have within 150 characters')
+    .required('Title is required'),
+  description: Yup.string()
+    .max(255, 'Description must have within 255 characters'),
+  thumbnail: Yup.mixed()
+    .test('fileSize', 'The file is too large', (value) => {
+      return value && value[0].size < 2000000
+    }),
+  content: Yup.string().required('Content is required'),
+  tags: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string(),
+      })
+    ),
+  category: Yup.string().required('Category is required'),
+  is_publish: Yup.boolean()
+})
 
 export const CreatePost: React.FC = () => {
   const [createPost] = useMutation(CREATE_POST)
@@ -52,6 +74,9 @@ export const CreatePost: React.FC = () => {
             variant="outlined"
             inputRef={register}
           />
+          {errors.title && (
+            <div>{errors.title.message}</div>
+          )}
         </FormControl>
         <FormControl>
           <TextField
@@ -61,6 +86,9 @@ export const CreatePost: React.FC = () => {
             variant="outlined"
             inputRef={register}
           />
+          {errors.description && (
+            <div>{errors.description.message}</div>
+          )}
         </FormControl>
         <FormControl>
           <input
