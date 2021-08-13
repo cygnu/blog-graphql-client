@@ -4,12 +4,12 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { css } from '@emotion/react';
-
-const cTTypo = css`
-  flex: 1;
-  align-items: center;
-`
+// import { css } from '@emotion/react';
+//
+// const cTTypo = css`
+//   flex: 1;
+//   align-items: center;
+// `
 
 export const Header: React.FC = () => {
   return (
@@ -17,8 +17,6 @@ export const Header: React.FC = () => {
       <Toolbar>
         <Typography
           variant="h6"
-          noWrap
-          css={cTTypo}
         >
           Title
         </Typography>
