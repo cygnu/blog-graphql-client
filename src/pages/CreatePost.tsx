@@ -1,5 +1,8 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
+import {
+  Container
+} from '@material-ui/core';
 import { CREATE_POST } from '../graphql/mutations';
 
 export const CreatePost: React.FC = () => {
