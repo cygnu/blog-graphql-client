@@ -1,7 +1,12 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Container
+  Container,
+  FormControl,
+  TextField,
+  Button,
 } from '@material-ui/core';
 import { CREATE_POST } from '../graphql/mutations';
 
@@ -26,6 +31,10 @@ export const CreatePost: React.FC = () => {
     }
   }
 
+  const { register, handleSubmit, errors } = useForm({
+    resolver: yupResolver(schema)
+  })
+
   const onSubmit = (data: IFormInputs) => {
     post()
     console.log(data)
@@ -33,7 +42,42 @@ export const CreatePost: React.FC = () => {
 
   return (
     <Container>
-      <h1>Create Post</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl>
+          <TextField
+            type="input"
+            name="title"
+            label="Title"
+            autoFocus
+            variant="outlined"
+            inputRef={register}
+          />
+        </FormControl>
+        <FormControl>
+          <TextField
+            type="input"
+            name="description"
+            label="Description"
+            variant="outlined"
+            inputRef={register}
+          />
+        </FormControl>
+        <FormControl>
+          <input
+            type="file"
+            ref={register}
+          />
+        </FormControl>
+        <FormControl>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            Submit
+          </Button>
+        </FormControl>
+      </form>
     </Container>
   );
 };
