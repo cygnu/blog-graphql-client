@@ -6,6 +6,12 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+} from 'react-router-dom';
+import { TopPage } from './pages/TopPage';
 
 const httpLink = createHttpLink({
   uri: 'http://127.0.0.1:8000/graphql/',
@@ -31,7 +37,11 @@ const client = new ApolloClient({
 export const App: React.FC = () => {
   return (
     <ApolloProvider client={client}>
-      <div></div>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={ TopPage } />
+        </Switch>
+      </BrowserRouter>
     </ApolloProvider>
   );
 };
