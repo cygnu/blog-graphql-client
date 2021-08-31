@@ -6,7 +6,6 @@ import marked from 'marked';
 import highlight from 'highlightjs';
 import 'highlightjs/styles/shades-of-purple.css';
 
-
 marked.setOptions({
   highlight: function (code, lang) {
     return highlight.highlightAuto(code, [lang.split(':')[0]]).value

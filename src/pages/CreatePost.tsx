@@ -10,6 +10,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { CREATE_POST } from '../graphql/mutations';
+import { MarkdownEditor } from '../components/MarkdownEditor';
 
 interface IFormInputs {
   title: string,
@@ -96,6 +97,7 @@ export const CreatePost: React.FC = () => {
             ref={register}
           />
         </FormControl>
+        <MarkdownEditor />
         <FormControl>
           <Button
             type="submit"
