@@ -2,20 +2,10 @@ import React, {
   createContext,
   useState,
 } from 'react';
-
-interface IFormInputs {
-  email: string;
-  password: string;
-}
-
-interface User extends IFormInputs {
-  token: string;
-  exp: number;
-}
-
-interface IContext {
-  user: User | null | undefined;
-}
+import {
+  User,
+  IContext,
+} from '../types/Auth';
 
 const AuthContext = createContext<IContext>({} as IContext);
 
