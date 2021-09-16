@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -23,7 +23,8 @@ const schema = Yup.object().shape({
 })
 
 export const Register: React.FC<IFormInputs> = () => {
-  const { signUp } = useAuth();
+  const { signUp, signIn } = useAuth();
+  const [isLogin, setIsLogin] = useState<boolean>(true);
 
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
@@ -34,7 +35,7 @@ export const Register: React.FC<IFormInputs> = () => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(signUp)}>
+      <form onSubmit={isLogin ? handleSubmit(signIn) : handleSubmit(signUp)}>
         <FormControl>
           <TextField
             type="email"
@@ -62,7 +63,16 @@ export const Register: React.FC<IFormInputs> = () => {
             <div>{errors.password.message}</div>
           )}
         </FormControl>
-        <FormControl>
+        <FormControl>{isLogin ?
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={!(isDirty && isValid)}
+          >
+            Login
+          </Button>
+        :
           <Button
             type="submit"
             variant="contained"
@@ -71,7 +81,7 @@ export const Register: React.FC<IFormInputs> = () => {
           >
             Register
           </Button>
-        </FormControl>
+        }</FormControl>
       </form>
     </Container>
   );
