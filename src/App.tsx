@@ -12,6 +12,7 @@ import {
   Route,
 } from 'react-router-dom';
 import { CreatePost } from './pages/CreatePost';
+import { Register } from './pages/Register';
 import { TopPage } from './pages/TopPage';
 
 const httpLink = createHttpLink({
@@ -41,7 +42,8 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={ TopPage } />
-          <Route exact path="/create" component={ CreatePost } />
+          <Route exact path="/register" component={ Register } />
+          <Route exact path="/post/create" component={ CreatePost } />
         </Switch>
       </BrowserRouter>
     </ApolloProvider>
