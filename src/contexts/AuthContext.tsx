@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -17,7 +18,9 @@ import {
 
 const AuthContext = createContext<IContext>({} as IContext);
 
-export const AuthProvider: React.FC = (props: any) => {
+const useAuth = () => useContext(AuthContext)
+
+const AuthProvider: React.FC = (props: any) => {
   const [user, setUser] = useState<User | null | undefined>(undefined);
   const [getToken] = useMutation(GET_TOKEN);
   const [createUser] = useMutation(CREATE_USER);
@@ -82,3 +85,5 @@ export const AuthProvider: React.FC = (props: any) => {
     </AuthContext.Provider>
   )
 };
+
+export { useAuth, AuthProvider };
