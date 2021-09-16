@@ -52,11 +52,24 @@ export const AuthProvider: React.FC = (props: any) => {
     res.data.tokenAuth.token && (window.location.href = "/")
   }
 
+  const signIn = async (data: IFormInputs) => {
+    const res = await getToken({
+      variables: {
+        email: data.email,
+        password: data.password,
+      }
+    })
+    localStorage.setItem('token', res.data.tokenAuth.token)
+    setUser(jwtDecode<User>(res.data.tokenAuth.token))
+    res.data.tokenAuth.token && (window.location.href = "/")
+  }
+
   return (
     <AuthContext.Provider
       value={{
         user: user,
         signUp,
+        signIn
       }}
     >
       {props.children}

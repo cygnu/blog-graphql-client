@@ -11,4 +11,5 @@ export interface User extends IFormInputs {
 export interface IContext {
   user: User | null | undefined;
   signUp: (data: IFormInputs) => Promise<void>;
+  signIn: (data: IFormInputs) => Promise<void>;
 }
