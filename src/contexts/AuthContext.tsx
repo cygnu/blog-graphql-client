@@ -64,12 +64,18 @@ export const AuthProvider: React.FC = (props: any) => {
     res.data.tokenAuth.token && (window.location.href = "/")
   }
 
+  const signOut = async () => {
+    localStorage.removeItem('token')
+    setUser(null)
+  }
+
   return (
     <AuthContext.Provider
       value={{
         user: user,
         signUp,
-        signIn
+        signIn,
+        signOut
       }}
     >
       {props.children}
