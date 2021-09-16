@@ -11,8 +11,8 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import { Authentication } from './pages/Authentication';
 import { CreatePost } from './pages/CreatePost';
-import { Register } from './pages/Register';
 import { TopPage } from './pages/TopPage';
 
 const httpLink = createHttpLink({
@@ -42,7 +42,7 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={ TopPage } />
-          <Route exact path="/register" component={ Register } />
+          <Route exact path="/auth" component={ Authentication } />
           <Route exact path="/post/create" component={ CreatePost } />
         </Switch>
       </BrowserRouter>

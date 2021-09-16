@@ -22,7 +22,7 @@ const schema = Yup.object().shape({
     .required('Password is required'),
 })
 
-export const Register: React.FC<IFormInputs> = () => {
+export const Authentication: React.FC<IFormInputs> = () => {
   const { signUp, signIn } = useAuth();
   const [isLogin, setIsLogin] = useState<boolean>(true);
 
