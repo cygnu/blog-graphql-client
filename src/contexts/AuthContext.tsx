@@ -1,11 +1,34 @@
 import React, {
   createContext,
+  useState,
 } from 'react';
 
-// @ts-ignore
-const AuthContext = createContext();
+interface IFormInputs {
+  email: string;
+  password: string;
+}
 
-// @ts-ignore
-export const AuthProvider: React.FC = () => {
-  return
+interface User extends IFormInputs {
+  token: string;
+  exp: number;
+}
+
+interface IContext {
+  user: User | null | undefined;
+}
+
+const AuthContext = createContext<IContext>({} as IContext);
+
+export const AuthProvider: React.FC = (props: any) => {
+  const [user, setUser] = useState<User | null | undefined>(undefined);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user: user,
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
+  )
 };
