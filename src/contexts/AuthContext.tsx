@@ -3,16 +3,24 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { useMutation } from '@apollo/client';
 import jwtDecode from 'jwt-decode';
 import {
+  IFormInputs,
   User,
   IContext,
 } from '../types/Auth';
+import {
+  CREATE_USER,
+  GET_TOKEN
+} from '../graphql/mutations';
 
 const AuthContext = createContext<IContext>({} as IContext);
 
 export const AuthProvider: React.FC = (props: any) => {
   const [user, setUser] = useState<User | null | undefined>(undefined);
+  const [getToken] = useMutation(GET_TOKEN);
+  const [createUser] = useMutation(CREATE_USER);
 
   useEffect(() => {
     const storageItem = localStorage.getItem("token")
@@ -26,10 +34,29 @@ export const AuthProvider: React.FC = (props: any) => {
     }
   }, [])
 
+  const signUp = async (data: IFormInputs) => {
+    await createUser({
+      variables: {
+        email: data.email,
+        password: data.password,
+      }
+    })
+    const res = await getToken({
+      variables: {
+        email: data.email,
+        password: data.password,
+      }
+    })
+    localStorage.setItem('token', res.data.tokenAuth.token)
+    setUser(jwtDecode<User>(res.data.tokenAuth.token))
+    res.data.tokenAuth.token && (window.location.href = "/")
+  }
+
   return (
     <AuthContext.Provider
       value={{
         user: user,
+        signUp,
       }}
     >
       {props.children}
