@@ -6,12 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Container,
   FormControl,
-  Button,
 } from '@material-ui/core';
 import {
   IFormInputs
 } from '../types/Post';
 import { ComInputForm } from '../atoms/ComInputForm';
+import { ComSubmitButton } from '../atoms/ComSubmitButton';
 import { MarkdownEditor } from '../components/MarkdownEditor';
 import {
   CREATE_POST,
@@ -108,15 +108,9 @@ export const MergePost: React.FC = () => {
           register={register}
           error={errors.category}
         />
-        <FormControl>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-          >
-            Submit
-          </Button>
-        </FormControl>
+        <ComSubmitButton
+          label="Submit"
+        />
       </form>
     </Container>
   );

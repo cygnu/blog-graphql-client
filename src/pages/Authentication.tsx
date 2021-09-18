@@ -11,14 +11,13 @@ import {
 import 'react-tabs/style/react-tabs.css';
 import {
   Container,
-  FormControl,
-  Button,
 } from '@material-ui/core';
 import {
   IFormInputs,
   IAuthProps,
 } from '../types/Auth';
 import { ComInputForm } from '../atoms/ComInputForm';
+import { ComSubmitButton } from '../atoms/ComSubmitButton';
 import { useAuth } from '../contexts/AuthContext';
 
 const schema = Yup.object().shape({
@@ -84,16 +83,10 @@ const TabComponent: React.FC<IAuthProps> = ({ submitting, title }) => {
           register={register}
           error={errors.password}
         />
-        <FormControl>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disabled={!(isDirty && isValid)}
-          >
-            {title}
-          </Button>
-        </FormControl>
+        <ComSubmitButton
+          label={title}
+          disabled={!(isDirty && isValid)}
+        />
       </form>
     </Container>
   );
