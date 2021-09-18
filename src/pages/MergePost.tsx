@@ -9,7 +9,10 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
-import { CREATE_POST } from '../graphql/mutations';
+import {
+  CREATE_POST,
+  UPDATE_POST,
+} from '../graphql/mutations';
 import { MarkdownEditor } from '../components/MarkdownEditor';
 
 interface IFormInputs {
@@ -45,6 +48,7 @@ const schema = Yup.object().shape({
 
 export const MergePost: React.FC = () => {
   const [createPost] = useMutation(CREATE_POST);
+  const [updatePost] = useMutation(UPDATE_POST);
 
   const onSubmit = async (data: IFormInputs) => {
     try {
