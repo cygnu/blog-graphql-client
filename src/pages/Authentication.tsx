@@ -35,19 +35,19 @@ export const Authentication: React.FC = () => {
   return (
     <Tabs>
       <TabList>
-        <Tab>Title 1</Tab>
-        <Tab>Title 2</Tab>
+        <Tab>Login</Tab>
+        <Tab>Register</Tab>
       </TabList>
 
       <TabPanel>
         <TabComponent
-          submit={signIn}
+          submitting={signIn}
           title="Login"
         />
       </TabPanel>
       <TabPanel>
         <TabComponent
-          submit={signUp}
+          submitting={signUp}
           title="Register"
         />
       </TabPanel>
@@ -55,7 +55,12 @@ export const Authentication: React.FC = () => {
   );
 };
 
-const TabComponent: React.FC = (props: any) => {
+type IAuthProps = {
+  submitting: (data: IFormInputs) => Promise<void>;
+  title: string;
+}
+
+const TabComponent: React.FC<IAuthProps> = ({ submitting, title }) => {
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema)
@@ -65,7 +70,7 @@ const TabComponent: React.FC = (props: any) => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(props.submit)}>
+      <form onSubmit={handleSubmit(submitting)}>
         <FormControl>
           <TextField
             type="email"
@@ -100,7 +105,7 @@ const TabComponent: React.FC = (props: any) => {
             color="primary"
             disabled={!(isDirty && isValid)}
           >
-            {props.title}
+            {title}
           </Button>
         </FormControl>
       </form>
