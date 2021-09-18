@@ -7,3 +7,9 @@ export interface IFormInputs {
   category: string,
   is_publish: boolean,
 }
+
+export interface IPosts {
+  loadingPosts: boolean;
+  errorPosts: any | undefined;
+  dataPosts: any | undefined;
+}

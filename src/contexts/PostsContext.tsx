@@ -2,13 +2,8 @@ import React, {
   createContext,
 } from 'react';
 import { useQuery } from '@apollo/react-hooks';
+import { IPosts } from '../types/Post';
 import { GET_POSTS } from '../graphql/queries';
-
-interface IPosts {
-  loadingPosts: boolean;
-  errorPosts: any | undefined;
-  dataPosts: any | undefined;
-}
 
 const PostsContext = createContext<IPosts>({} as IPosts);
 
