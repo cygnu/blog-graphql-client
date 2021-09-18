@@ -44,24 +44,20 @@ const schema = Yup.object().shape({
 })
 
 export const CreatePost: React.FC = () => {
-  const [createPost] = useMutation(CREATE_POST)
+  const [createPost] = useMutation(CREATE_POST);
 
-  const post = async () => {
+  const onSubmit = async (data: IFormInputs) => {
     try {
       await createPost()
+      console.log(data)
     } catch (err) {
       console.log(err)
     }
-  }
+  };
 
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema)
-  })
-
-  const onSubmit = (data: IFormInputs) => {
-    post()
-    console.log(data)
-  }
+  });
 
   return (
     <Container>
