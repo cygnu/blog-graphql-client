@@ -9,7 +9,6 @@ export const ComInputForm = ({ register, error, ...inputProps }) => {
   return (
     <FormControl>
       <TextField
-        type="input"
         variant="outlined"
         inputRef={register}
         { ...inputProps }

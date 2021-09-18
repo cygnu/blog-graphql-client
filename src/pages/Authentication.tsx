@@ -12,13 +12,13 @@ import 'react-tabs/style/react-tabs.css';
 import {
   Container,
   FormControl,
-  TextField,
   Button,
 } from '@material-ui/core';
 import {
   IFormInputs,
   IAuthProps,
 } from '../types/Auth';
+import { ComInputForm } from '../atoms/ComInputForm';
 import { useAuth } from '../contexts/AuthContext';
 
 const schema = Yup.object().shape({
@@ -67,33 +67,23 @@ const TabComponent: React.FC<IAuthProps> = ({ submitting, title }) => {
   return (
     <Container>
       <form onSubmit={handleSubmit(submitting)}>
-        <FormControl>
-          <TextField
-            type="email"
-            name="email"
-            label="Email"
-            autoComplete="email"
-            autoFocus
-            variant="outlined"
-            inputRef={register}
-          />
-          {errors.email && (
-            <div>{errors.email.message}</div>
-          )}
-        </FormControl>
-        <FormControl>
-          <TextField
-            type="password"
-            name="password"
-            label="Password"
-            autoComplete="current-password"
-            variant="outlined"
-            inputRef={register}
-          />
-          {errors.password && (
-            <div>{errors.password.message}</div>
-          )}
-        </FormControl>
+        <ComInputForm
+          type="email"
+          name="email"
+          label="Email"
+          autoComplete="email"
+          autoFocus
+          register={register}
+          error={errors.email}
+        />
+        <ComInputForm
+          type="password"
+          name="password"
+          label="Password"
+          autoComplete="current-password"
+          register={register}
+          error={errors.password}
+        />
         <FormControl>
           <Button
             type="submit"
