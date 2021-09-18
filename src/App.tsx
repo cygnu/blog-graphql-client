@@ -12,7 +12,7 @@ import {
   Route,
 } from 'react-router-dom';
 import { Authentication } from './pages/Authentication';
-import { CreatePost } from './pages/CreatePost';
+import { MergePost } from './pages/MergePost';
 import { TopPage } from './pages/TopPage';
 
 const httpLink = createHttpLink({
@@ -43,7 +43,8 @@ export const App: React.FC = () => {
         <Switch>
           <Route exact path="/" component={ TopPage } />
           <Route exact path="/auth" component={ Authentication } />
-          <Route exact path="/post/create" component={ CreatePost } />
+          <Route exact path="/post/create" component={ MergePost } />
+          <Route exact path="/post/:id" component={ MergePost } />
         </Switch>
       </BrowserRouter>
     </ApolloProvider>

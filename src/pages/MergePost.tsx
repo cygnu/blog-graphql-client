@@ -43,7 +43,7 @@ const schema = Yup.object().shape({
   is_publish: Yup.boolean()
 })
 
-export const CreatePost: React.FC = () => {
+export const MergePost: React.FC = () => {
   const [createPost] = useMutation(CREATE_POST);
 
   const onSubmit = async (data: IFormInputs) => {
