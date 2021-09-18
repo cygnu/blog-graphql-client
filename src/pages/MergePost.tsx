@@ -6,12 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Container,
   FormControl,
-  TextField,
   Button,
 } from '@material-ui/core';
 import {
   IFormInputs
 } from '../types/Post';
+import { ComInputForm } from '../atoms/ComInputForm';
 import { MarkdownEditor } from '../components/MarkdownEditor';
 import {
   CREATE_POST,
@@ -78,31 +78,19 @@ export const MergePost: React.FC = () => {
   return (
     <Container>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl>
-          <TextField
-            type="input"
-            name="title"
-            label="Title"
-            autoFocus
-            variant="outlined"
-            inputRef={register}
-          />
-          {errors.title && (
-            <div>{errors.title.message}</div>
-          )}
-        </FormControl>
-        <FormControl>
-          <TextField
-            type="input"
-            name="description"
-            label="Description"
-            variant="outlined"
-            inputRef={register}
-          />
-          {errors.description && (
-            <div>{errors.description.message}</div>
-          )}
-        </FormControl>
+        <ComInputForm
+          autoFocus
+          name="title"
+          label="Title"
+          register={register}
+          error={errors.title}
+        />
+        <ComInputForm
+          name="description"
+          label="Description"
+          register={register}
+          error={errors.description}
+        />
         <FormControl>
           <input
             type="file"
@@ -111,18 +99,12 @@ export const MergePost: React.FC = () => {
           />
         </FormControl>
         <MarkdownEditor />
-        <FormControl>
-          <TextField
-            type="input"
-            name="category"
-            label="Category"
-            variant="outlined"
-            inputRef={register}
-          />
-          {errors.category && (
-            <div>{errors.category.message}</div>
-          )}
-        </FormControl>
+        <ComInputForm
+          name="category"
+          label="Category"
+          register={register}
+          error={errors.category}
+        />
         <FormControl>
           <Button
             type="submit"
