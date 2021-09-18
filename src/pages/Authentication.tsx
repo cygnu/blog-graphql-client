@@ -42,20 +42,20 @@ export const Authentication: React.FC = () => {
       <TabPanel>
         <TabComponent
           submitting={signIn}
-          title="Login"
+          label="Login"
         />
       </TabPanel>
       <TabPanel>
         <TabComponent
           submitting={signUp}
-          title="Register"
+          label="Register"
         />
       </TabPanel>
     </Tabs>
   );
 };
 
-const TabComponent: React.FC<IAuthProps> = ({ submitting, title }) => {
+const TabComponent: React.FC<IAuthProps> = ({ submitting, label }) => {
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema)
@@ -84,7 +84,7 @@ const TabComponent: React.FC<IAuthProps> = ({ submitting, title }) => {
           error={errors.password}
         />
         <ComSubmitButton
-          label={title}
+          label={label}
           disabled={!(isDirty && isValid)}
         />
       </form>
