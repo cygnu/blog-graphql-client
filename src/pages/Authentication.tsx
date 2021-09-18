@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import {
   IFormInputs,
+  IAuthProps,
 } from '../types/Auth';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -54,11 +55,6 @@ export const Authentication: React.FC = () => {
     </Tabs>
   );
 };
-
-type IAuthProps = {
-  submitting: (data: IFormInputs) => Promise<void>;
-  title: string;
-}
 
 const TabComponent: React.FC<IAuthProps> = ({ submitting, title }) => {
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({

@@ -8,6 +8,11 @@ export interface User extends IFormInputs {
   exp: number;
 }
 
+export interface IAuthProps {
+  submitting: (data: IFormInputs) => Promise<void>;
+  title: string;
+}
+
 export interface IContext {
   user: User | null | undefined;
   signUp: (data: IFormInputs) => Promise<void>;
