@@ -2,13 +2,8 @@ import React, {
   createContext,
 } from 'react';
 import { useLazyQuery } from '@apollo/react-hooks';
+import { IPost } from '../types/Post';
 import { GET_POST } from '../graphql/queries';
-
-interface IPost {
-  getPost: any;
-  dataPost: any | undefined;
-  errorPost: any | undefined;
-}
 
 const PostContext = createContext<IPost>({} as IPost);
 

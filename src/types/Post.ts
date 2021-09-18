@@ -8,6 +8,12 @@ export interface IFormInputs {
   is_publish: boolean,
 }
 
+export interface IPost {
+  getPost: any;
+  dataPost: any | undefined;
+  errorPost: any | undefined;
+}
+
 export interface IPosts {
   loadingPosts: boolean;
   errorPosts: any | undefined;
