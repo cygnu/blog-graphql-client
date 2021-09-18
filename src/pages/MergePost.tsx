@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -40,16 +40,35 @@ const schema = Yup.object().shape({
 })
 
 export const MergePost: React.FC = () => {
+  const [editedId, setEditedId] = useState<string>("");
   const [createPost] = useMutation(CREATE_POST);
   const [updatePost] = useMutation(UPDATE_POST);
 
   const onSubmit = async (data: IFormInputs) => {
-    try {
-      await createPost()
-      console.log(data)
-    } catch (err) {
-      console.log(err)
-    }
+    editedId
+      ? await createPost({
+          variables: {
+            title: data.title,
+            description: data.description,
+            thumbnail: data.thumbnail,
+            content: data.content,
+            tags: data.tags,
+            category: data.category,
+            is_publish: data.is_publish,
+          }
+        }) && (window.location.href = "/")
+      : await updatePost({
+          variables: {
+            id: editedId,
+            title: data.title,
+            description: data.description,
+            thumbnail: data.thumbnail,
+            content: data.content,
+            tags: data.tags,
+            category: data.category,
+            is_publish: data.is_publish,
+          }
+        }) && (window.location.href = "/")
   };
 
   const { register, handleSubmit, errors } = useForm({
@@ -87,10 +106,23 @@ export const MergePost: React.FC = () => {
         <FormControl>
           <input
             type="file"
+            name="thumbnail"
             ref={register}
           />
         </FormControl>
         <MarkdownEditor />
+        <FormControl>
+          <TextField
+            type="input"
+            name="category"
+            label="Category"
+            variant="outlined"
+            inputRef={register}
+          />
+          {errors.category && (
+            <div>{errors.category.message}</div>
+          )}
+        </FormControl>
         <FormControl>
           <Button
             type="submit"
