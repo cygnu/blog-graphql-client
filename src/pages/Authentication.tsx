@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -48,8 +48,7 @@ export const Authentication: React.FC = () => {
 };
 
 const TabComponent: React.FC = () => {
-  const { signUp, signIn } = useAuth();
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const { signIn } = useAuth();
 
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
@@ -60,7 +59,7 @@ const TabComponent: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={isLogin ? handleSubmit(signIn) : handleSubmit(signUp)}>
+      <form onSubmit={handleSubmit(signIn)}>
         <FormControl>
           <TextField
             type="email"
@@ -88,7 +87,7 @@ const TabComponent: React.FC = () => {
             <div>{errors.password.message}</div>
           )}
         </FormControl>
-        <FormControl>{isLogin ?
+        <FormControl>
           <Button
             type="submit"
             variant="contained"
@@ -97,16 +96,7 @@ const TabComponent: React.FC = () => {
           >
             Login
           </Button>
-        :
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disabled={!(isDirty && isValid)}
-          >
-            Register
-          </Button>
-        }</FormControl>
+        </FormControl>
       </form>
     </Container>
   );
