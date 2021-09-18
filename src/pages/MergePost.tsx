@@ -10,20 +10,13 @@ import {
   Button,
 } from '@material-ui/core';
 import {
+  IFormInputs
+} from '../types/Post';
+import { MarkdownEditor } from '../components/MarkdownEditor';
+import {
   CREATE_POST,
   UPDATE_POST,
 } from '../graphql/mutations';
-import { MarkdownEditor } from '../components/MarkdownEditor';
-
-interface IFormInputs {
-  title: string,
-  description: string,
-  thumbnail: string,
-  content: string,
-  tags: string[],
-  category: string,
-  is_publish: boolean,
-}
 
 const schema = Yup.object().shape({
   title: Yup.string()
