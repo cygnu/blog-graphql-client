@@ -30,6 +30,8 @@ const schema = Yup.object().shape({
 });
 
 export const Authentication: React.FC = () => {
+  const { signIn, signUp } = useAuth();
+
   return (
     <Tabs>
       <TabList>
@@ -38,18 +40,22 @@ export const Authentication: React.FC = () => {
       </TabList>
 
       <TabPanel>
-        <h2>Any content 1</h2>
+        <TabComponent
+          submit={signIn}
+          title="Login"
+        />
       </TabPanel>
       <TabPanel>
-        <h2>Any content 2</h2>
+        <TabComponent
+          submit={signUp}
+          title="Register"
+        />
       </TabPanel>
     </Tabs>
   );
 };
 
-const TabComponent: React.FC = () => {
-  const { signIn } = useAuth();
-
+const TabComponent: React.FC = (props: any) => {
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema)
@@ -59,7 +65,7 @@ const TabComponent: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(signIn)}>
+      <form onSubmit={handleSubmit(props.submit)}>
         <FormControl>
           <TextField
             type="email"
@@ -94,7 +100,7 @@ const TabComponent: React.FC = () => {
             color="primary"
             disabled={!(isDirty && isValid)}
           >
-            Login
+            {props.title}
           </Button>
         </FormControl>
       </form>
