@@ -3,6 +3,13 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  Tabs,
+  Tab,
+  TabList,
+  TabPanel,
+} from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+import {
   Container,
   FormControl,
   TextField,
@@ -20,9 +27,27 @@ const schema = Yup.object().shape({
   password: Yup.string()
     .min(6, 'Password must have at least 6 characters')
     .required('Password is required'),
-})
+});
 
-export const Authentication: React.FC<IFormInputs> = () => {
+export const Authentication: React.FC = () => {
+  return (
+    <Tabs>
+      <TabList>
+        <Tab>Title 1</Tab>
+        <Tab>Title 2</Tab>
+      </TabList>
+
+      <TabPanel>
+        <h2>Any content 1</h2>
+      </TabPanel>
+      <TabPanel>
+        <h2>Any content 2</h2>
+      </TabPanel>
+    </Tabs>
+  );
+};
+
+const TabComponent: React.FC = () => {
   const { signUp, signIn } = useAuth();
   const [isLogin, setIsLogin] = useState<boolean>(true);
 
