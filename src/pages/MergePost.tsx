@@ -7,7 +7,6 @@ import {
   Container,
   FormControl,
 } from '@material-ui/core';
-// @ts-ignore
 import ReactTagInput from "@pathofdev/react-tag-input";
 import "@pathofdev/react-tag-input/build/index.css";
 import {
@@ -44,7 +43,7 @@ const schema = Yup.object().shape({
 
 export const MergePost: React.FC = () => {
   const [editedId, setEditedId] = useState<string>("");
-  const [tags, setTags] = useState<string[]>([""]);
+  const [tags, setTags] = useState<string[]>([]);
   const [createPost] = useMutation(CREATE_POST);
   const [updatePost] = useMutation(UPDATE_POST);
 
@@ -109,9 +108,7 @@ export const MergePost: React.FC = () => {
         <ReactTagInput
           tags={tags}
           onChange={(newTags: string[]) => setTags(newTags)}
-          name="tags"
           placeholder="Enter a tag"
-          inputRef={register}
         />
         <ComInputForm
           required
