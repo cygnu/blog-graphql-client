@@ -67,6 +67,7 @@ const TabComponent: React.FC<IAuthProps> = ({ submitting, label }) => {
     <Container>
       <form onSubmit={handleSubmit(submitting)}>
         <ComInputForm
+          required
           type="email"
           name="email"
           label="Email"
@@ -76,6 +77,7 @@ const TabComponent: React.FC<IAuthProps> = ({ submitting, label }) => {
           error={errors.email}
         />
         <ComInputForm
+          required
           type="password"
           name="password"
           label="Password"

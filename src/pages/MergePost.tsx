@@ -80,6 +80,7 @@ export const MergePost: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <ComInputForm
           autoFocus
+          required
           type="input"
           name="title"
           label="Title"
@@ -102,6 +103,7 @@ export const MergePost: React.FC = () => {
         </FormControl>
         <MarkdownEditor />
         <ComInputForm
+          required
           type="input"
           name="category"
           label="Category"
