@@ -43,7 +43,7 @@ export const App: React.FC = () => {
         <Switch>
           <Route exact path="/" component={ TopPage } />
           <Route exact path="/auth" component={ Authentication } />
-          <Route exact path="/post/create" component={ MergePost } />
+          <Route exact path="/post" component={ MergePost } />
           <Route exact path="/post/:id" component={ MergePost } />
         </Switch>
       </BrowserRouter>
