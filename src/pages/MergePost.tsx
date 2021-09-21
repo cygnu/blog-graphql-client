@@ -11,8 +11,8 @@ import {
   FormControl,
   Switch,
 } from '@material-ui/core';
-import ReactTagInput from "@pathofdev/react-tag-input";
-import "@pathofdev/react-tag-input/build/index.css";
+import ReactTagInput from '@pathofdev/react-tag-input';
+import '@pathofdev/react-tag-input/build/index.css';
 import {
   IFormInputs
 } from '../types/Post';
@@ -113,10 +113,16 @@ export const MergePost: React.FC = () => {
           as={<MarkdownEditor />}
           control={control}
         />
-        <ReactTagInput
-          tags={tags}
-          onChange={(newTags: string[]) => setTags(newTags)}
-          placeholder="Enter a tag"
+        <Controller
+          name="tags"
+          as={
+            <ReactTagInput
+              tags={tags}
+              onChange={(newTags: string[]) => setTags(newTags)}
+              placeholder="Enter a tag"
+            />
+          }
+          control={control}
         />
         <ComInputForm
           required
