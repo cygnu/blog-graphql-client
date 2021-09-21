@@ -4,8 +4,7 @@ import {
   TextField,
 } from '@material-ui/core';
 
-// @ts-ignore
-export const ComInputForm = ({ register, error, ...inputProps }) => {
+export const ComInputForm = ({ register, error, ...inputProps }: any) => {
   return (
     <FormControl>
       <TextField
