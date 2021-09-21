@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Container,
   FormControl,
+  Switch,
 } from '@material-ui/core';
 import ReactTagInput from "@pathofdev/react-tag-input";
 import "@pathofdev/react-tag-input/build/index.css";
@@ -118,6 +119,13 @@ export const MergePost: React.FC = () => {
           register={register}
           error={errors.category}
         />
+        <FormControl>
+          <Switch
+            color="primary"
+            name="is_publish"
+            inputRef={register}
+          />
+        </FormControl>
         <ComSubmitButton
           label="Submit"
         />
