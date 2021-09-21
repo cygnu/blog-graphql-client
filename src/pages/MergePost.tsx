@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { useForm } from 'react-hook-form';
+import {
+  useForm,
+  Controller
+} from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -75,7 +78,7 @@ export const MergePost: React.FC = () => {
         }) && (window.location.href = "/")
   };
 
-  const { register, handleSubmit, errors } = useForm({
+  const { handleSubmit, register, errors, control } = useForm({
     resolver: yupResolver(schema)
   });
 
@@ -105,7 +108,11 @@ export const MergePost: React.FC = () => {
             ref={register}
           />
         </FormControl>
-        <MarkdownEditor />
+        <Controller
+          name="content"
+          as={<MarkdownEditor />}
+          control={control}
+        />
         <ReactTagInput
           tags={tags}
           onChange={(newTags: string[]) => setTags(newTags)}
