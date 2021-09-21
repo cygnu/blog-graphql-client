@@ -51,32 +51,36 @@ export const MergePost: React.FC = () => {
   const [createPost] = useMutation(CREATE_POST);
   const [updatePost] = useMutation(UPDATE_POST);
 
-  const onSubmit = async (data: IFormInputs) => {
-    editedId
-      ? await createPost({
-          variables: {
-            title: data.title,
-            description: data.description,
-            thumbnail: data.thumbnail,
-            content: data.content,
-            tags: data.tags,
-            category: data.category,
-            is_publish: data.is_publish,
-          }
-        }) && (window.location.href = "/")
-      : await updatePost({
-          variables: {
-            id: editedId,
-            title: data.title,
-            description: data.description,
-            thumbnail: data.thumbnail,
-            content: data.content,
-            tags: data.tags,
-            category: data.category,
-            is_publish: data.is_publish,
-          }
-        }) && (window.location.href = "/")
+  const postCreated = async (data: IFormInputs) => {
+    await createPost({
+      variables: {
+        title: data.title,
+        description: data.description,
+        thumbnail: data.thumbnail,
+        content: data.content,
+        tags: data.tags,
+        category: data.category,
+        is_publish: data.is_publish,
+      }
+    });
+    window.location.href = "/"
   };
+
+  const postUpdated = async (data: IFormInputs) => {
+    await updatePost({
+      variables: {
+        id: editedId,
+        title: data.title,
+        description: data.description,
+        thumbnail: data.thumbnail,
+        content: data.content,
+        tags: data.tags,
+        category: data.category,
+        is_publish: data.is_publish,
+      }
+    });
+    window.location.href = "/"
+  }
 
   const { handleSubmit, register, errors, control } = useForm({
     resolver: yupResolver(schema)
@@ -84,7 +88,7 @@ export const MergePost: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(editedId ? postUpdated : postCreated)}>
         <ComInputForm
           autoFocus
           required
