@@ -8,6 +8,7 @@ export const CREATE_USER = gql`
     }) {
       user {
         id
+        email
       }
     }
   }
