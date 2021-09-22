@@ -179,7 +179,7 @@ export const CREATE_POST = gql`
 `
 
 export const UPDATE_POST = gql`
-  mutation($id: Uuid!, $title: String, $description: String, $thumbnail: thumbnail, $content: String, $tags: [Uuid], $category: String, $is_publish: Boolean!) {
+  mutation($id: Uuid!, $title: String, $description: String, $thumbnail: thumbnail, $content: String, $tags: [Uuid], $category: String, $isPublish: Boolean!) {
     createPost(input: {
       id: $id
       title: $title
@@ -188,7 +188,7 @@ export const UPDATE_POST = gql`
       content: $content
       tags: $tags
       category: $category
-      is_publish: $is_publish
+      isPublish: $isPublish
     }) {
       post {
         id
@@ -202,7 +202,7 @@ export const UPDATE_POST = gql`
         category {
           name
         }
-        is_publish
+        isPublish
       }
     }
   }
