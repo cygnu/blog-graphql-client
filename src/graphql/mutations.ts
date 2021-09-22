@@ -45,6 +45,33 @@ export const CREATE_PROFILE = gql`
   }
 `
 
+
+export const UPDATE_PROFILE = gql`
+  mutation($id: Uuid!, $username: String!, $firstName: String, $lastName: String, $avatar: String, $backgroundImage: String, $local: String, $bio: String) {
+    createProfile(input: {
+      id: $id,
+      username: $username,
+      firstName: $firstName,
+      lastName: $lastName,
+      avatar: $avatar,
+      backgroundImage: $backgroundImage,
+      local: $local,
+      bio: $bio
+    }) {
+      user {
+        id
+        username
+        firstName
+        lastName
+      }
+      avatar
+      backgroundImage
+      local
+      bio
+    }
+  }
+`
+
 export const CREATE_LINK_IN_BIO = gql`
   mutation($githubUrl: String!, $qiitaUrl: String, $twitterUrl: String, $websiteUrl: String) {
     createLinkInBio(input: {
