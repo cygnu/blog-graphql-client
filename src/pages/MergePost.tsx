@@ -60,7 +60,7 @@ export const MergePost: React.FC = () => {
         content: data.content,
         tags: data.tags,
         category: data.category,
-        is_publish: data.is_publish,
+        is_publish: data.isPublish,
       }
     });
     window.location.href = "/"
@@ -76,7 +76,7 @@ export const MergePost: React.FC = () => {
         content: data.content,
         tags: data.tags,
         category: data.category,
-        is_publish: data.is_publish,
+        is_publish: data.isPublish,
       }
     });
     window.location.href = "/"
@@ -139,7 +139,7 @@ export const MergePost: React.FC = () => {
         <FormControl>
           <Switch
             color="primary"
-            name="is_publish"
+            name="isPublish"
             inputRef={register}
           />
         </FormControl>
