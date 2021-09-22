@@ -151,7 +151,7 @@ export const REMOVE_CATEGORY = gql`
 `
 
 export const CREATE_POST = gql`
-  mutation($title: String!, $description: String, $thumbnail: thumbnail, $content: String!, $tags: [String], $category: String!, $is_publish: Boolean!) {
+  mutation($title: String!, $description: String, $thumbnail: thumbnail, $content: String!, $tags: [String], $category: String!, $isPublish: Boolean!) {
     createPost(input: {
       title: $title
       description: $description
@@ -159,7 +159,7 @@ export const CREATE_POST = gql`
       content: $content
       tags: $tags
       category: $category
-      is_publish: $is_publish
+      isPublish: $isPublish
     }) {
       post {
         title
@@ -172,7 +172,7 @@ export const CREATE_POST = gql`
         category {
           name
         }
-        is_publish
+        isPublish
       }
     }
   }
