@@ -9,18 +9,30 @@ import {
 
 const schema = Yup.object().shape({
   username: Yup.string()
+    .max(150, 'Username must have within 150 characters')
     .required(),
-  first_name: Yup.string(),
-  last_name: Yup.string(),
-  avatar: Yup.string(),
-  background_image: Yup.string(),
-  local: Yup.string(),
-  bio: Yup.string(),
+  first_name: Yup.string()
+    .max(150, 'First name must have within 150 characters'),
+  last_name: Yup.string()
+    .max(150, 'Last name must have within 150 characters'),
+  avatar: Yup.mixed()
+    .test('fileSize', 'The file is too large', (value) => {
+      return value && value[0].size < 2000000
+    }),
+  background_image: Yup.mixed()
+    .test('fileSize', 'The file is too large', (value) => {
+      return value && value[0].size < 2000000
+    }),
+  local: Yup.string()
+    .max(50, 'Local must have within 50 characters'),
+  bio: Yup.string()
+    .max(255, 'Bio must have within 255 characters'),
   github_url: Yup.string()
+    .url()
     .required(),
-  qiita_url: Yup.string(),
-  twitter_url: Yup.string(),
-  website_url: Yup.string(),
+  qiita_url: Yup.string().url(),
+  twitter_url: Yup.string().url(),
+  website_url: Yup.string().url(),
 });
 
 export const MergeProfile: React.FC = () => {
