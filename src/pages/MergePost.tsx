@@ -42,7 +42,7 @@ const schema = Yup.object().shape({
       })
     ),
   category: Yup.string().required('Category is required'),
-  is_publish: Yup.boolean()
+  isPublish: Yup.boolean()
 })
 
 export const MergePost: React.FC = () => {
@@ -60,7 +60,7 @@ export const MergePost: React.FC = () => {
         content: data.content,
         tags: data.tags,
         category: data.category,
-        is_publish: data.isPublish,
+        isPublish: data.isPublish,
       }
     });
     window.location.href = "/"
@@ -76,7 +76,7 @@ export const MergePost: React.FC = () => {
         content: data.content,
         tags: data.tags,
         category: data.category,
-        is_publish: data.isPublish,
+        isPublish: data.isPublish,
       }
     });
     window.location.href = "/"
