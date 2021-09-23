@@ -3,7 +3,12 @@ import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Container } from '@material-ui/core';
+import {
+  Container,
+  FormControl,
+} from '@material-ui/core';
+import { ComInputForm } from '../atoms/ComInputForm';
+import { ComSubmitButton } from '../atoms/ComSubmitButton';
 import {
   CREATE_PROFILE,
   CREATE_LINK_IN_BIO,
@@ -47,7 +52,83 @@ export const MergeProfile: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(createProfile)}></form>
+      <form onSubmit={handleSubmit(createProfile)}>
+        <ComInputForm
+          autoFocus
+          required
+          type="input"
+          name="username"
+          label="User Name"
+          register={register}
+          error={errors.username}
+        />
+        <ComInputForm
+          type="input"
+          name="firstName"
+          label="First Name"
+          register={register}
+          error={errors.firstName}
+        />
+        <ComInputForm
+          type="input"
+          name="lastName"
+          label="Last Name"
+          register={register}
+          error={errors.LastName}
+        />
+        <FormControl>
+          <input
+            type="file"
+            name="avatar"
+            ref={register}
+          />
+        </FormControl>
+        <FormControl>
+          <input
+            type="file"
+            name="backgroundImage"
+            ref={register}
+          />
+        </FormControl>
+        <ComInputForm
+          type="input"
+          name="local"
+          label="Local"
+          register={register}
+          error={errors.local}
+        />
+        <ComInputForm
+          type="input"
+          name="githubUrl"
+          label="Github Url"
+          register={register}
+          error={errors.githubUrl}
+        />
+        <ComInputForm
+          type="input"
+          name="qiitaUrl"
+          label="Qiita Url"
+          register={register}
+          error={errors.qiitaUrl}
+        />
+        <ComInputForm
+          type="input"
+          name="twitterUrl"
+          label="Twitter Url"
+          register={register}
+          error={errors.twitterUrl}
+        />
+        <ComInputForm
+          type="input"
+          name="websiteUrl"
+          label="Website Url"
+          register={register}
+          error={errors.websiteUrl}
+        />
+        <ComSubmitButton
+          label="Submit"
+        />
+      </form>
     </Container>
   );
 };
