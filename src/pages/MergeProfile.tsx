@@ -3,10 +3,8 @@ import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Container,
-  FormControl,
-} from '@material-ui/core';
+import { Container } from '@material-ui/core';
+import { ComInputFile } from '../atoms/ComInputFile';
 import { ComInputForm } from '../atoms/ComInputForm';
 import { ComSubmitButton } from '../atoms/ComSubmitButton';
 import {
@@ -76,20 +74,16 @@ export const MergeProfile: React.FC = () => {
           register={register}
           error={errors.LastName}
         />
-        <FormControl>
-          <input
-            type="file"
-            name="avatar"
-            ref={register}
-          />
-        </FormControl>
-        <FormControl>
-          <input
-            type="file"
-            name="backgroundImage"
-            ref={register}
-          />
-        </FormControl>
+        <ComInputFile
+          name="avatar"
+          register={register}
+          error={errors.avatar}
+        />
+        <ComInputFile
+          name="backgroundImage"
+          register={register}
+          error={errors.backgroundImage}
+        />
         <ComInputForm
           type="input"
           name="local"
