@@ -1,6 +1,8 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
+import { useForm } from 'react-hook-form'
 import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Container } from '@material-ui/core';
 import {
   CREATE_PROFILE,
@@ -39,9 +41,13 @@ export const MergeProfile: React.FC = () => {
   const [createProfile] = useMutation(CREATE_PROFILE);
   const [createLinkInBio] = useMutation(CREATE_LINK_IN_BIO);
 
+  const { handleSubmit, register, errors } = useForm({
+    resolver: yupResolver(schema)
+  });
+
   return (
     <Container>
-      <form></form>
+      <form onSubmit={handleSubmit(createProfile)}></form>
     </Container>
   );
 };
