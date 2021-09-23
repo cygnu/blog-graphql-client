@@ -17,6 +17,7 @@ import {
   IFormInputs
 } from '../types/Post';
 import { ComInputForm } from '../atoms/ComInputForm';
+import { ComInputFile } from '../atoms/ComInputFile';
 import { ComSubmitButton } from '../atoms/ComSubmitButton';
 import { MarkdownEditor } from '../components/MarkdownEditor';
 import {
@@ -105,13 +106,11 @@ export const MergePost: React.FC = () => {
           register={register}
           error={errors.description}
         />
-        <FormControl>
-          <input
-            type="file"
-            name="thumbnail"
-            ref={register}
-          />
-        </FormControl>
+        <ComInputFile
+          name="thumbnail"
+          register={register}
+          error={errors.thumbnail}
+        />
         <Controller
           name="content"
           as={<MarkdownEditor />}
