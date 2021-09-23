@@ -1,6 +1,11 @@
 import React from 'react';
+import { useMutation } from '@apollo/client';
 import * as Yup from 'yup';
 import { Container } from '@material-ui/core';
+import {
+  CREATE_PROFILE,
+  CREATE_LINK_IN_BIO,
+} from '../graphql/mutations';
 
 const schema = Yup.object().shape({
   username: Yup.string()
@@ -19,6 +24,9 @@ const schema = Yup.object().shape({
 });
 
 export const MergeProfile: React.FC = () => {
+  const [createProfile] = useMutation(CREATE_PROFILE);
+  const [createLinkInBio] = useMutation(CREATE_LINK_IN_BIO);
+
   return (
     <Container>
       <form></form>
