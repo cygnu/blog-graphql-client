@@ -34,6 +34,7 @@ export const CREATE_PROFILE = gql`
       bio: $bio
     }) {
       user {
+        id
         username
         firstName
         lastName
@@ -82,6 +83,7 @@ export const CREATE_LINK_IN_BIO = gql`
       websiteUrl: $websiteUrl
     }) {
       linkInBio {
+        id
         githubUrl
         qiitaUrl
         twitterUrl
@@ -114,6 +116,7 @@ export const ADD_TAG = gql`
   mutation($name: String!) {
     addTag(input: { name: $name }) {
       tag {
+        id
         name
       }
     }
@@ -134,6 +137,7 @@ export const ADD_CATEGORY = gql`
   mutation($name: String!) {
     addCategory(input: { name: $name }) {
       category {
+        id
         name
       }
     }
@@ -162,6 +166,7 @@ export const CREATE_POST = gql`
       isPublish: $isPublish
     }) {
       post {
+        id
         title
         description
         thumbnail
