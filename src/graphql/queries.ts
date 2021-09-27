@@ -4,6 +4,7 @@ export const GET_VIEWER = gql`
   query {
     viewer {
       user {
+        id
         username
       }
     }
@@ -47,11 +48,16 @@ export const GET_POST = gql`
     post {
       edges {
         node {
+          id
           title
-          author
+          author {
+            username
+          }
           thumbnail
           content
-          tags
+          tags {
+            id
+          }
           category
           updatedAt
         }
@@ -65,6 +71,7 @@ export const GET_POSTS = gql`
     allPosts {
       edges {
         node {
+          id
           title
           author {
             username
