@@ -43,7 +43,7 @@ const schema = Yup.object().shape({
       })
     ),
   category: Yup.string().required('Category is required'),
-  isPublish: Yup.boolean()
+  isPublish: Yup.boolean().default(false)
 })
 
 export const MergePost: React.FC = () => {
