@@ -11,6 +11,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import { PrivateRoute } from './components/PrivateRoute';
 import { Authentication } from './pages/Authentication';
 import { MergePost } from './pages/MergePost';
 import { TopPage } from './pages/TopPage';
@@ -44,8 +45,8 @@ export const App: React.FC = () => {
           <Route exact path="/" component={ TopPage } />
           <Route exact path="/auth" component={ Authentication } />
           <Route exact path="/posts/:id" component={ TopPage } />
-          <Route exact path="/posts/create" component={ MergePost } />
-          <Route exact path="/posts/:id/edit" component={ MergePost } />
+          <PrivateRoute exact path="/posts/create" component={ MergePost } />
+          <PrivateRoute exact path="/posts/:id/edit" component={ MergePost } />
         </Switch>
       </BrowserRouter>
     </ApolloProvider>
