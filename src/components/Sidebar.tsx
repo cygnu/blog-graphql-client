@@ -7,7 +7,7 @@ import {
 export const Sidebar: React.FC = () => {
   return (
     <Grid item xs={12} md={4}>
-      <Link to="/post">Create Post</Link>
+      <Link to="/post/create">Create Post</Link>
     </Grid>
   );
 };

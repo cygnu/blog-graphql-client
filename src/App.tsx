@@ -43,8 +43,9 @@ export const App: React.FC = () => {
         <Switch>
           <Route exact path="/" component={ TopPage } />
           <Route exact path="/auth" component={ Authentication } />
-          <Route exact path="/post" component={ MergePost } />
-          <Route exact path="/post/:id" component={ MergePost } />
+          <Route exact path="/posts/:id" component={ TopPage } />
+          <Route exact path="/posts/create" component={ MergePost } />
+          <Route exact path="/posts/:id/edit" component={ MergePost } />
         </Switch>
       </BrowserRouter>
     </ApolloProvider>
