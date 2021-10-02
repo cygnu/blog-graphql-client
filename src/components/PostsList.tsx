@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { PostsContext } from '../contexts/PostsContext';
 
 export const PostsList: React.FC = () => {
-  const { dataPosts } = useContext(PostsContext)
+  const { dataPosts } = useContext(PostsContext);
 
   return (
     <ul>
@@ -12,7 +13,9 @@ export const PostsList: React.FC = () => {
             dataPosts.allPosts.edges.map((post: any) => (
               <li key={post.node.id}>
                 <img src={post.node.thumbnail} alt={post.node.thumbnail}/>
-                <h1>{post.node.title}</h1>
+                <Link to={`/posts/${post.node.id}`}>
+                  <h1>{post.node.title}</h1>
+                </Link>
                 <span>{post.node.updatedAt}</span>
               </li>
             ))
