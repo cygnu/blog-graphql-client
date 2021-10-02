@@ -14,6 +14,7 @@ import {
 import { PrivateRoute } from './components/PrivateRoute';
 import { Authentication } from './pages/Authentication';
 import { MergePost } from './pages/MergePost';
+import { PostDetails } from './components/PostDetails';
 import { TopPage } from './pages/TopPage';
 
 const httpLink = createHttpLink({
@@ -44,9 +45,9 @@ export const App: React.FC = () => {
         <Switch>
           <Route exact path="/" component={ TopPage } />
           <Route exact path="/auth" component={ Authentication } />
-          <Route exact path="/posts/:id" component={ TopPage } />
+          <Route path="/posts/:id" component={ PostDetails } />
           <PrivateRoute exact path="/posts/create" component={ MergePost } />
-          <PrivateRoute exact path="/posts/:id/edit" component={ MergePost } />
+          <PrivateRoute path="/posts/:id/edit" component={ MergePost } />
         </Switch>
       </BrowserRouter>
     </ApolloProvider>
