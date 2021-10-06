@@ -44,24 +44,20 @@ export const GET_CATEGORIES = gql`
 `
 
 export const GET_POST = gql`
-  query {
-    post {
-      edges {
-        node {
-          id
-          title
-          author {
-            username
-          }
-          thumbnail
-          content
-          tags {
-            id
-          }
-          category
-          updatedAt
-        }
+  query($id: Uuid!) {
+    post($id: $id) {
+      id
+      title
+      author {
+        username
       }
+      thumbnail
+      content
+      tags {
+        id
+      }
+      category
+      updatedAt
     }
   }
 `
