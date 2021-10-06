@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+} from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -29,33 +33,43 @@ const schema = Yup.object().shape({
     .required('Password is required'),
 });
 
+// @ts-ignore
+export const SelectTabIndex = createContext();
+
 export const Authentication: React.FC = () => {
   const { signIn, signUp } = useAuth();
   const [tabIndex, setTabIndex] = useState<number>(0);
 
   return (
-    <Tabs
-      selectedIndex={tabIndex}
-      onSelect={index => setTabIndex(index)}
+    <SelectTabIndex.Provider
+      value={{
+        tabIndex,
+        setTabIndex,
+      }}
     >
-      <TabList>
-        <Tab>Login</Tab>
-        <Tab>Register</Tab>
-      </TabList>
+      <Tabs
+        selectedIndex={tabIndex}
+        onSelect={index => setTabIndex(index)}
+      >
+        <TabList>
+          <Tab>Login</Tab>
+          <Tab>Register</Tab>
+        </TabList>
 
-      <TabPanel>
-        <TabComponent
-          submitting={signIn}
-          label="Login"
-        />
-      </TabPanel>
-      <TabPanel>
-        <TabComponent
-          submitting={signUp}
-          label="Register"
-        />
-      </TabPanel>
-    </Tabs>
+        <TabPanel>
+          <TabComponent
+            submitting={signIn}
+            label="Login"
+          />
+        </TabPanel>
+        <TabPanel>
+          <TabComponent
+            submitting={signUp}
+            label="Register"
+          />
+        </TabPanel>
+      </Tabs>
+    </SelectTabIndex.Provider>
   );
 };
 
@@ -64,8 +78,9 @@ const TabComponent: React.FC<IAuthProps> = ({ submitting, label }) => {
     mode: "onChange",
     resolver: yupResolver(schema)
   });
-
-  const { isDirty, isValid } = formState
+  const { isDirty, isValid } = formState;
+  // @ts-ignore
+  const { tabIndex, setTabIndex } = useContext(SelectTabIndex);
 
   return (
     <Container>
