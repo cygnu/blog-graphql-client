@@ -1,6 +1,7 @@
 export interface IFormInputs {
   id: string,
   title: string,
+  author: string,
   description: string,
   thumbnail: string,
   content: string,
