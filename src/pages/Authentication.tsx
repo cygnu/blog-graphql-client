@@ -37,7 +37,6 @@ const schema = Yup.object().shape({
 export const SelectTabIndex = createContext();
 
 export const Authentication: React.FC = () => {
-  const { signIn, signUp } = useAuth();
   const [tabIndex, setTabIndex] = useState<number>(0);
 
   return (
@@ -58,13 +57,11 @@ export const Authentication: React.FC = () => {
 
         <TabPanel>
           <TabComponent
-            submitting={signIn}
             label="Login"
           />
         </TabPanel>
         <TabPanel>
           <TabComponent
-            submitting={signUp}
             label="Register"
           />
         </TabPanel>
@@ -73,18 +70,19 @@ export const Authentication: React.FC = () => {
   );
 };
 
-const TabComponent: React.FC<IAuthProps> = ({ submitting, label }) => {
+const TabComponent: React.FC<IAuthProps> = ({ label }) => {
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema)
   });
   const { isDirty, isValid } = formState;
+  const { signIn, signUp } = useAuth();
   // @ts-ignore
-  const { tabIndex, setTabIndex } = useContext(SelectTabIndex);
+  const { tabIndex } = useContext(SelectTabIndex);
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(submitting)}>
+      <form onSubmit={tabIndex === 0 ? handleSubmit(signIn) : handleSubmit(signUp)}>
         <ComInputForm
           required
           type="email"

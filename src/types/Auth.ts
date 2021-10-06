@@ -9,7 +9,6 @@ export interface User extends IFormInputs {
 }
 
 export interface IAuthProps {
-  submitting: (data: IFormInputs) => Promise<void>;
   label: string;
 }
 
