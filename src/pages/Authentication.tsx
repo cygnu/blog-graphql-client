@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -31,9 +31,13 @@ const schema = Yup.object().shape({
 
 export const Authentication: React.FC = () => {
   const { signIn, signUp } = useAuth();
+  const [tabIndex, setTabIndex] = useState<number>(0);
 
   return (
-    <Tabs>
+    <Tabs
+      selectedIndex={tabIndex}
+      onSelect={index => setTabIndex(index)}
+    >
       <TabList>
         <Tab>Login</Tab>
         <Tab>Register</Tab>
