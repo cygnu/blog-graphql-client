@@ -122,13 +122,16 @@ export const MergePost: React.FC = () => {
         />
         <Controller
           name="tags"
-          as={
+          render={(
+            { ref }
+          ) => (
             <ReactTagInput
               tags={tags}
               onChange={(newTags: string[]) => setTags(newTags)}
               placeholder="Enter a tag"
+              ref={ref}
             />
-          }
+          )}
           control={control}
         />
         <ComInputForm
