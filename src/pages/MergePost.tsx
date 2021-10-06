@@ -20,6 +20,7 @@ import { ComInputForm } from '../atoms/ComInputForm';
 import { ComInputFile } from '../atoms/ComInputFile';
 import { ComSubmitButton } from '../atoms/ComSubmitButton';
 import { MarkdownEditor } from '../components/MarkdownEditor';
+import { useViewer } from '../contexts/ViewerContext';
 import {
   CREATE_POST,
   UPDATE_POST,
@@ -51,11 +52,13 @@ export const MergePost: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [createPost] = useMutation(CREATE_POST);
   const [updatePost] = useMutation(UPDATE_POST);
+  const { dataViewer } = useViewer();
 
   const postCreated = async (data: IFormInputs) => {
     await createPost({
       variables: {
         title: data.title,
+        author: dataViewer.viewer.user.username,
         description: data.description,
         thumbnail: data.thumbnail,
         content: data.content,
@@ -72,6 +75,7 @@ export const MergePost: React.FC = () => {
       variables: {
         id: editedId,
         title: data.title,
+        author: dataViewer.viewer.user.username,
         description: data.description,
         thumbnail: data.thumbnail,
         content: data.content,
