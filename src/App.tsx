@@ -45,9 +45,9 @@ export const App: React.FC = () => {
         <Switch>
           <Route exact path="/" component={ TopPage } />
           <Route exact path="/auth" component={ Authentication } />
-          <Route path="/posts/:id" component={ PostDetails } />
-          <PrivateRoute exact path="/posts/create" component={ MergePost } />
+          <Route exact path="/posts/create" component={ MergePost } />
           <PrivateRoute path="/posts/:id/edit" component={ MergePost } />
+          <Route path="/posts/:id" component={ PostDetails } />
         </Switch>
       </BrowserRouter>
     </ApolloProvider>
