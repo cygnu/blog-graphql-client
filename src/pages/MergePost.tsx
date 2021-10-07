@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+  useContext,
+  useState,
+} from 'react';
 import { useMutation } from '@apollo/client';
 import {
   useForm,
@@ -20,6 +23,7 @@ import { ComInputForm } from '../atoms/ComInputForm';
 import { ComInputFile } from '../atoms/ComInputFile';
 import { ComSubmitButton } from '../atoms/ComSubmitButton';
 import { MarkdownEditor } from '../components/MarkdownEditor';
+import { PostContext } from '../contexts/PostContext';
 import { useViewer } from '../contexts/ViewerContext';
 import {
   CREATE_POST,
@@ -48,10 +52,10 @@ const schema = Yup.object().shape({
 })
 
 export const MergePost: React.FC = () => {
-  const [editedId, setEditedId] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
   const [createPost] = useMutation(CREATE_POST);
   const [updatePost] = useMutation(UPDATE_POST);
+  const { dataPost } = useContext(PostContext);
   const { dataViewer } = useViewer();
 
   const postCreated = async (data: IFormInputs) => {
@@ -73,7 +77,7 @@ export const MergePost: React.FC = () => {
   const postUpdated = async (data: IFormInputs) => {
     await updatePost({
       variables: {
-        id: editedId,
+        id: dataPost.post.id,
         title: data.title,
         author: dataViewer.viewer.user.username,
         description: data.description,
@@ -93,7 +97,7 @@ export const MergePost: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(editedId ? postUpdated : postCreated)}>
+      <form onSubmit={handleSubmit(dataPost.post.id ? postUpdated : postCreated)}>
         <ComInputForm
           autoFocus
           required
