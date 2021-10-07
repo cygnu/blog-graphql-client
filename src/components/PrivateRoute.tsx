@@ -7,9 +7,9 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 
 export const PrivateRoute: React.FC<RouteProps> = ({...props}) => {
-  const { user } = useAuth();
+  const { currentUser } = useAuth();
 
-  if (user === null || user === undefined) {
+  if (currentUser === null || currentUser === undefined) {
     return <Redirect to="/auth" />
   } else {
     return <Route {...props} />

@@ -75,7 +75,7 @@ const AuthProvider: React.FC = (props: any) => {
   return (
     <AuthContext.Provider
       value={{
-        user: user,
+        currentUser: user,
         signUp,
         signIn,
         signOut

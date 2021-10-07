@@ -13,7 +13,7 @@ export interface IAuthProps {
 }
 
 export interface IContext {
-  user: User | null | undefined;
+  currentUser: User | null | undefined;
   signUp: (data: IFormInputs) => Promise<void>;
   signIn: (data: IFormInputs) => Promise<void>;
   signOut: () => Promise<void>;
