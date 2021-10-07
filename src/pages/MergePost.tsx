@@ -119,6 +119,7 @@ export const MergePost: React.FC = () => {
           name="content"
           as={<MarkdownEditor />}
           control={control}
+          defaultValue=""
         />
         <Controller
           name="tags"
