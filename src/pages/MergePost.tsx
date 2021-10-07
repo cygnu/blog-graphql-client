@@ -77,7 +77,7 @@ export const MergePost: React.FC = () => {
   const postUpdated = async (data: IFormInputs) => {
     await updatePost({
       variables: {
-        id: dataPost.post.id,
+        id: dataPost?.post?.id,
         title: data.title,
         author: dataViewer.viewer.user.username,
         description: data.description,
@@ -97,7 +97,7 @@ export const MergePost: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(dataPost.post.id ? postUpdated : postCreated)}>
+      <form onSubmit={handleSubmit(dataPost?.post?.id ? postUpdated : postCreated)}>
         <ComInputForm
           autoFocus
           required
