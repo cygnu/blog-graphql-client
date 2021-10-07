@@ -3,6 +3,7 @@ import React, {
   useContext,
 } from 'react';
 import { useQuery } from '@apollo/react-hooks';
+import { useAuth } from './AuthContext';
 import { GET_VIEWER } from '../graphql/queries';
 
 interface IViewer {
@@ -16,11 +17,16 @@ const ViewerContext = createContext({} as IViewer);
 const useViewer = () => useContext(ViewerContext);
 
 const ViewerProvider: React.FC = (props: any) => {
+  const { currentUser } = useAuth();
   const {
     loading: loadingViewer,
     error: errorViewer,
     data: dataViewer,
-  } = useQuery(GET_VIEWER);
+  } = useQuery(GET_VIEWER, {
+    variables: {
+      id: currentUser?.id
+    }
+  });
 
   return (
     <ViewerContext.Provider

@@ -4,6 +4,7 @@ export interface IFormInputs {
 }
 
 export interface User extends IFormInputs {
+  id: string;
   token: string;
   exp: number;
 }
