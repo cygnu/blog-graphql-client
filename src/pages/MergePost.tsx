@@ -134,6 +134,7 @@ export const MergePost: React.FC = () => {
             />
           )}
           control={control}
+          defaultValue={tags}
         />
         <ComInputForm
           required
