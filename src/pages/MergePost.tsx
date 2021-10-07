@@ -10,7 +10,7 @@ import {
   Container,
   FormControl,
   Switch,
-} from '@material-ui/core';
+} from '@mui/material';
 import ReactTagInput from '@pathofdev/react-tag-input';
 import '@pathofdev/react-tag-input/build/index.css';
 import {

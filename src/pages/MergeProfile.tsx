@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 import { ComInputFile } from '../atoms/ComInputFile';
 import { ComInputForm } from '../atoms/ComInputForm';
 import { ComSubmitButton } from '../atoms/ComSubmitButton';
