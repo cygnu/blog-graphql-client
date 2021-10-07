@@ -2,7 +2,7 @@ import React from 'react';
 import {
   FormControl,
   Button,
-} from '@material-ui/core';
+} from '@mui/material';
 
 export const ComSubmitButton = ({ label, register, error, ...inputProps }: any) => {
   return (

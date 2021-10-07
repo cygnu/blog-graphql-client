@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl } from '@material-ui/core';
+import { FormControl } from '@mui/material';
 
 export const ComInputFile = ({ register, error, ...inputProps }: any) => {
   return (

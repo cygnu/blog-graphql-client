@@ -15,7 +15,7 @@ import {
 import 'react-tabs/style/react-tabs.css';
 import {
   Container,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   IFormInputs,
   IAuthProps,

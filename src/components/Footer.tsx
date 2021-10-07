@@ -3,7 +3,7 @@ import {
   Container,
   Typography,
   Link,
-} from '@material-ui/core';
+} from '@mui/material';
 
 const Copyright: React.FC = () => {
   return (

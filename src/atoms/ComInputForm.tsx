@@ -2,7 +2,7 @@ import React from 'react';
 import {
   FormControl,
   TextField,
-} from '@material-ui/core';
+} from '@mui/material';
 
 export const ComInputForm = ({ register, error, ...inputProps }: any) => {
   return (

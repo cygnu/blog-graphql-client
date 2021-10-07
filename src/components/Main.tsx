@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import {
   Grid
-} from '@material-ui/core';
+} from '@mui/material';
 import { PostsContext } from '../contexts/PostsContext';
 import { PostsList } from './PostsList';
 
