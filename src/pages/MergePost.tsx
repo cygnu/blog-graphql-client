@@ -1,55 +1,40 @@
-import React, {
-  useContext,
-  useState,
-} from 'react';
-import { useMutation } from '@apollo/client';
-import {
-  useForm,
-  Controller
-} from 'react-hook-form';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Container,
-  FormControl,
-  Switch,
-} from '@mui/material';
-import ReactTagInput from '@pathofdev/react-tag-input';
-import '@pathofdev/react-tag-input/build/index.css';
-import {
-  IFormInputs
-} from '../types/Post';
-import { ComInputForm } from '../atoms/ComInputForm';
-import { ComInputFile } from '../atoms/ComInputFile';
-import { ComSubmitButton } from '../atoms/ComSubmitButton';
-import { MarkdownEditor } from '../components/MarkdownEditor';
-import { PostContext } from '../contexts/PostContext';
-import { useViewer } from '../contexts/ViewerContext';
-import {
-  CREATE_POST,
-  UPDATE_POST,
-} from '../graphql/mutations';
+import React, { useContext, useState } from "react";
+import { useMutation } from "@apollo/client";
+import { useForm, Controller } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Container, FormControl, Switch } from "@mui/material";
+import ReactTagInput from "@pathofdev/react-tag-input";
+import "@pathofdev/react-tag-input/build/index.css";
+import { IFormInputs } from "../types/Post";
+import { ComInputForm } from "../atoms/ComInputForm";
+import { ComInputFile } from "../atoms/ComInputFile";
+import { ComSubmitButton } from "../atoms/ComSubmitButton";
+import { MarkdownEditor } from "../components/MarkdownEditor";
+import { PostContext } from "../contexts/PostContext";
+import { useViewer } from "../contexts/ViewerContext";
+import { CREATE_POST, UPDATE_POST } from "../graphql/mutations";
 
 const schema = Yup.object().shape({
   title: Yup.string()
-    .max(150, 'Title must have within 150 characters')
-    .required('Title is required'),
-  description: Yup.string()
-    .max(255, 'Description must have within 255 characters'),
-  thumbnail: Yup.mixed()
-    .test('fileSize', 'The file is too large', (value) => {
-      return value && value[0].size < 2000000
-    }),
-  content: Yup.string().required('Content is required'),
-  tags: Yup.array()
-    .of(
-      Yup.object().shape({
-        name: Yup.string(),
-      })
-    ),
-  category: Yup.string().required('Category is required'),
-  isPublish: Yup.boolean().default(false)
-})
+    .max(150, "Title must have within 150 characters")
+    .required("Title is required"),
+  description: Yup.string().max(
+    255,
+    "Description must have within 255 characters"
+  ),
+  thumbnail: Yup.mixed().test("fileSize", "The file is too large", (value) => {
+    return value && value[0].size < 2000000;
+  }),
+  content: Yup.string().required("Content is required"),
+  tags: Yup.array().of(
+    Yup.object().shape({
+      name: Yup.string(),
+    })
+  ),
+  category: Yup.string().required("Category is required"),
+  isPublish: Yup.boolean().default(false),
+});
 
 export const MergePost: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]);
@@ -69,9 +54,9 @@ export const MergePost: React.FC = () => {
         tags: data.tags,
         category: data.category,
         isPublish: data.isPublish,
-      }
+      },
     });
-    window.location.href = "/"
+    window.location.href = "/";
   };
 
   const postUpdated = async (data: IFormInputs) => {
@@ -86,18 +71,20 @@ export const MergePost: React.FC = () => {
         tags: data.tags,
         category: data.category,
         isPublish: data.isPublish,
-      }
+      },
     });
-    window.location.href = "/"
-  }
+    window.location.href = "/";
+  };
 
   const { handleSubmit, register, errors, control } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(dataPost?.post?.id ? postUpdated : postCreated)}>
+      <form
+        onSubmit={handleSubmit(dataPost?.post?.id ? postUpdated : postCreated)}
+      >
         <ComInputForm
           autoFocus
           required
@@ -127,9 +114,7 @@ export const MergePost: React.FC = () => {
         />
         <Controller
           name="tags"
-          render={(
-            { ref }
-          ) => (
+          render={({ ref }) => (
             <ReactTagInput
               tags={tags}
               onChange={(newTags: string[]) => setTags(newTags)}
@@ -149,15 +134,9 @@ export const MergePost: React.FC = () => {
           error={errors.category}
         />
         <FormControl>
-          <Switch
-            color="primary"
-            name="isPublish"
-            inputRef={register}
-          />
+          <Switch color="primary" name="isPublish" inputRef={register} />
         </FormControl>
-        <ComSubmitButton
-          label="Submit"
-        />
+        <ComSubmitButton label="Submit" />
       </form>
     </Container>
   );
