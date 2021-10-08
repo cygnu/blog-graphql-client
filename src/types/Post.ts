@@ -1,13 +1,13 @@
 export interface IFormInputs {
-  id: string,
-  title: string,
-  author: string,
-  description: string,
-  thumbnail: string,
-  content: string,
-  tags: string[],
-  category: string,
-  isPublish: boolean,
+  id: string;
+  title: string;
+  author: string;
+  description: string;
+  thumbnail: string;
+  content: string;
+  tags: string[];
+  category: string;
+  isPublish: boolean;
 }
 
 export interface IPost {
