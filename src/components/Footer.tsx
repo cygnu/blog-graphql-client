@@ -1,18 +1,15 @@
-import React from 'react';
-import {
-  Container,
-  Typography,
-  Link,
-} from '@mui/material';
+import React from "react";
+import { Container, Typography, Link } from "@mui/material";
 
 const Copyright: React.FC = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://github.com/cygnu">cygnu</Link>
-      {' '}
+      {"Copyright © "}
+      <Link color="inherit" href="https://github.com/cygnu">
+        cygnu
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 };
