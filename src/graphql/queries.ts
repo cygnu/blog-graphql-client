@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const GET_VIEWER = gql`
-  query($id: Uuid!) {
+  query ($id: Uuid!) {
     viewer(id: $id) {
       user {
         id
@@ -9,7 +9,7 @@ export const GET_VIEWER = gql`
       }
     }
   }
-`
+`;
 
 export const GET_TAG = gql`
   query {
@@ -17,7 +17,7 @@ export const GET_TAG = gql`
       name
     }
   }
-`
+`;
 
 export const GET_TAGS = gql`
   query {
@@ -25,7 +25,7 @@ export const GET_TAGS = gql`
       name
     }
   }
-`
+`;
 
 export const GET_CATEGORY = gql`
   query {
@@ -33,7 +33,7 @@ export const GET_CATEGORY = gql`
       name
     }
   }
-`
+`;
 
 export const GET_CATEGORIES = gql`
   query {
@@ -41,10 +41,10 @@ export const GET_CATEGORIES = gql`
       name
     }
   }
-`
+`;
 
 export const GET_POST = gql`
-  query($id: Uuid!) {
+  query ($id: Uuid!) {
     post(id: $id) {
       id
       title
@@ -60,7 +60,7 @@ export const GET_POST = gql`
       updatedAt
     }
   }
-`
+`;
 
 export const GET_POSTS = gql`
   query {
@@ -81,4 +81,4 @@ export const GET_POSTS = gql`
       }
     }
   }
-`
+`;

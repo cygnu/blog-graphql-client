@@ -1,36 +1,22 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-} from 'react';
-import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Tabs,
-  Tab,
-  TabList,
-  TabPanel,
-} from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import {
-  Container,
-} from '@mui/material';
-import {
-  IFormInputs,
-  IAuthProps,
-} from '../types/Auth';
-import { ComInputForm } from '../atoms/ComInputForm';
-import { ComSubmitButton } from '../atoms/ComSubmitButton';
-import { useAuth } from '../contexts/AuthContext';
+import React, { createContext, useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import { Container } from "@mui/material";
+import { IFormInputs, IAuthProps } from "../types/Auth";
+import { ComInputForm } from "../atoms/ComInputForm";
+import { ComSubmitButton } from "../atoms/ComSubmitButton";
+import { useAuth } from "../contexts/AuthContext";
 
 const schema = Yup.object().shape({
   email: Yup.string()
-    .email('Invalid email address')
-    .required('Email address is required'),
+    .email("Invalid email address")
+    .required("Email address is required"),
   password: Yup.string()
-    .min(6, 'Password must have at least 6 characters')
-    .required('Password is required'),
+    .min(6, "Password must have at least 6 characters")
+    .required("Password is required"),
 });
 
 // @ts-ignore
@@ -46,24 +32,17 @@ export const Authentication: React.FC = () => {
         setTabIndex,
       }}
     >
-      <Tabs
-        selectedIndex={tabIndex}
-        onSelect={index => setTabIndex(index)}
-      >
+      <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <TabList>
           <Tab>Login</Tab>
           <Tab>Register</Tab>
         </TabList>
 
         <TabPanel>
-          <TabComponent
-            label="Login"
-          />
+          <TabComponent label="Login" />
         </TabPanel>
         <TabPanel>
-          <TabComponent
-            label="Register"
-          />
+          <TabComponent label="Register" />
         </TabPanel>
       </Tabs>
     </SelectTabIndex.Provider>
@@ -73,7 +52,7 @@ export const Authentication: React.FC = () => {
 const TabComponent: React.FC<IAuthProps> = ({ label }) => {
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
   const { isDirty, isValid } = formState;
   const { signIn, signUp } = useAuth();
@@ -82,7 +61,9 @@ const TabComponent: React.FC<IAuthProps> = ({ label }) => {
 
   return (
     <Container>
-      <form onSubmit={tabIndex === 0 ? handleSubmit(signIn) : handleSubmit(signUp)}>
+      <form
+        onSubmit={tabIndex === 0 ? handleSubmit(signIn) : handleSubmit(signUp)}
+      >
         <ComInputForm
           required
           type="email"
@@ -102,10 +83,7 @@ const TabComponent: React.FC<IAuthProps> = ({ label }) => {
           register={register}
           error={errors.password}
         />
-        <ComSubmitButton
-          label={label}
-          disabled={!(isDirty && isValid)}
-        />
+        <ComSubmitButton label={label} disabled={!(isDirty && isValid)} />
       </form>
     </Container>
   );
