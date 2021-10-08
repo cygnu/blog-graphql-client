@@ -11,7 +11,7 @@ type PostDetailsProps = RouteComponentProps<{
 
 export const PostDetails: React.FC<PostDetailsProps> = (props) => {
   const { dataPost, errorPost } = useContext(PostContext);
-  const markdown = `# Hello, world!`;
+  const markdown = dataPost.post.content;
 
   return (
     <Container>
