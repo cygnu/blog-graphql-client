@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Container } from "@mui/material";
 import { PostContext } from "../contexts/PostContext";
 
@@ -9,6 +11,7 @@ type PostDetailsProps = RouteComponentProps<{
 
 export const PostDetails: React.FC<PostDetailsProps> = (props) => {
   const { dataPost, errorPost } = useContext(PostContext);
+  const markdown = `# Hello, world!`;
 
   return (
     <Container>
@@ -16,7 +19,10 @@ export const PostDetails: React.FC<PostDetailsProps> = (props) => {
       {dataPost &&
       dataPost.post &&
       dataPost.post.id === props.match.params.id ? (
-        <h1>PostDetails ID: {dataPost.post.id}</h1>
+        <React.Fragment>
+          <h1>PostDetails ID: {dataPost.post.id}</h1>
+          <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />
+        </React.Fragment>
       ) : (
         <React.Fragment />
       )}
