@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { hopscotch } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Container } from "@mui/material";
@@ -30,7 +29,6 @@ const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ markdown }) => {
           );
         },
       }}
-      remarkPlugins={[remarkGfm]}
     />
   );
 };
