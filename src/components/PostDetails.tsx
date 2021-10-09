@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+// @ts-ignore
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// @ts-ignore
 import { hopscotch } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Container } from "@mui/material";
 import { PostContext } from "../contexts/PostContext";

@@ -2160,13 +2160,6 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-syntax-highlighter@^13.5.2":
-  version "13.5.2"
-  resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-13.5.2.tgz#357cc03581dc434c57c3b31f70e0eecdbf7b3ab0"
-  integrity sha512-sRZoKZBGKaE7CzMvTTgz+0x/aVR58ZYUTfB7HN76vC+yQnvo1FWtzNARBt0fGqcLGEVakEzMu/CtPzssmanu8Q==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-tabs@^2.3.3":
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/@types/react-tabs/-/react-tabs-2.3.3.tgz#93536e06d616b98012e0574b9b3e280400152734"
