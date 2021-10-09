@@ -7,8 +7,11 @@ import { hopscotch } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Container } from "@mui/material";
 import { PostContext } from "../contexts/PostContext";
 
-// @ts-ignore
-const MarkdownViewer: React.FC = ({ markdown }) => {
+type MarkdownViewerProps = {
+  markdown: any;
+};
+
+const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ markdown }) => {
   return (
     <ReactMarkdown
       children={markdown}
@@ -48,7 +51,7 @@ export const PostDetails: React.FC<PostDetailsProps> = (props) => {
       dataPost.post.id === props.match.params.id ? (
         <React.Fragment>
           <h1>PostDetails ID: {dataPost.post.id}</h1>
-          <MarkdownViewer children={markdown} />
+          <MarkdownViewer markdown={markdown} />
         </React.Fragment>
       ) : (
         <React.Fragment />
