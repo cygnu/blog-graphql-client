@@ -1,7 +1,39 @@
 import React, { useContext } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+// @ts-ignore
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// @ts-ignore
+import { hopscotch } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Container } from "@mui/material";
 import { PostContext } from "../contexts/PostContext";
+
+type MarkdownViewerProps = {
+  markdown: any;
+};
+
+const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ markdown }) => {
+  return (
+    <ReactMarkdown
+      children={markdown}
+      components={{
+        code({ node, className, ...props }) {
+          const match = /language-(\w+)/.exec(className || "");
+          return match ? (
+            <SyntaxHighlighter
+              language={match[1]}
+              PreTag="div"
+              style={hopscotch}
+              {...props}
+            />
+          ) : (
+            <code className={className} {...props} />
+          );
+        },
+      }}
+    />
+  );
+};
 
 type PostDetailsProps = RouteComponentProps<{
   id: string;
@@ -9,6 +41,7 @@ type PostDetailsProps = RouteComponentProps<{
 
 export const PostDetails: React.FC<PostDetailsProps> = (props) => {
   const { dataPost, errorPost } = useContext(PostContext);
+  const markdown = dataPost.post.content;
 
   return (
     <Container>
@@ -16,7 +49,10 @@ export const PostDetails: React.FC<PostDetailsProps> = (props) => {
       {dataPost &&
       dataPost.post &&
       dataPost.post.id === props.match.params.id ? (
-        <h1>PostDetails ID: {dataPost.post.id}</h1>
+        <React.Fragment>
+          <h1>PostDetails ID: {dataPost.post.id}</h1>
+          <MarkdownViewer markdown={markdown} />
+        </React.Fragment>
       ) : (
         <React.Fragment />
       )}
