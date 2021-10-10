@@ -12,12 +12,16 @@ export const Sidebar: React.FC = () => {
       <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
         Archives
       </Typography>
-      {dataPosts.allPosts &&
+      {dataPosts == null ? (
+        <span>No posts yet.</span>
+      ) : (
+        dataPosts.allPosts &&
         dataPosts.allPosts.edges.slice(-6).map((post: any) => (
           <Link key={post.node.id} to={`post/${post.node.id}`}>
-            {post.node.title}
+            <span>{post.node.title}</span>
           </Link>
-        ))}
+        ))
+      )}
     </Grid>
   );
 };
