@@ -50,7 +50,9 @@ export const PostDetails: React.FC<PostDetailsProps> = (props) => {
       dataPost.post &&
       dataPost.post.id === props.match.params.id ? (
         <React.Fragment>
-          <h1>PostDetails ID: {dataPost.post.id}</h1>
+          <h1>{dataPost.post.title}</h1>
+          <p>{dataPost.post.author}</p>
+          <p>{dataPost.post.updatedAt}</p>
           <MarkdownViewer markdown={markdown} />
         </React.Fragment>
       ) : (
