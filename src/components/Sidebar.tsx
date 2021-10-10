@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import { PostsContext } from "../contexts/PostsContext";
 
 export const Sidebar: React.FC = () => {
+  const { dataPosts } = useContext(PostsContext);
+
   return (
     <Grid item xs={12} md={4}>
       <Link to="/posts/create">Create Post</Link>
+      <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
+        Archives
+      </Typography>
+      {dataPosts.allPosts &&
+        dataPosts.allPosts.edges.slice(-6).map((post: any) => (
+          <Link key={post.node.id} to={`post/${post.node.id}`}>
+            {post.node.title}
+          </Link>
+        ))}
     </Grid>
   );
 };
