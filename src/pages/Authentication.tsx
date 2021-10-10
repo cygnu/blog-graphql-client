@@ -19,8 +19,14 @@ const schema = Yup.object().shape({
     .required("Password is required"),
 });
 
-// @ts-ignore
-export const SelectTabIndex = createContext();
+type SelectTabProps = {
+  tabIndex: number;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export const SelectTabIndex = createContext<SelectTabProps>(
+  {} as SelectTabProps
+);
 
 export const Authentication: React.FC = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
@@ -56,7 +62,6 @@ const TabComponent: React.FC<IAuthProps> = ({ label }) => {
   });
   const { isDirty, isValid } = formState;
   const { signIn, signUp } = useAuth();
-  // @ts-ignore
   const { tabIndex } = useContext(SelectTabIndex);
 
   return (
