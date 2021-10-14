@@ -67,7 +67,11 @@ const TabComponent: React.FC<IAuthProps> = ({ label }) => {
   return (
     <Container>
       <form
-        onSubmit={tabIndex === 0 ? handleSubmit(signIn) : handleSubmit(signUp)}
+        onSubmit={
+          tabIndex === 0
+            ? handleSubmit(() => signIn)
+            : handleSubmit(() => signUp)
+        }
       >
         <ComInputForm
           required
