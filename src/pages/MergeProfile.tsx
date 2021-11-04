@@ -44,9 +44,32 @@ export const MergeProfile: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
+  const profileCreated = async (data: any) => {
+    await createProfile({
+      variables: {
+        username: data.username,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        avatar: data.avatar,
+        backgroundImage: data.backgroundImage,
+        local: data.local,
+      },
+    });
+    await createLinkInBio({
+      variables: {
+        bio: data.bio,
+        githubUrl: data.githubUrl,
+        qiitaUrl: data.qiitaUrl,
+        twitterUrl: data.twitterUrl,
+        websiteUrl: data.websiteUrl,
+      },
+    });
+    window.location.href = "/";
+  };
+
   return (
     <Container>
-      <form onSubmit={handleSubmit(createProfile)}>
+      <form onSubmit={handleSubmit(profileCreated)}>
         <ComInputForm
           autoFocus
           required
