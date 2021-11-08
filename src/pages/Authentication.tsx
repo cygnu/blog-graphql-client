@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useMutation } from "@apollo/client";
+import jwtDecode from "jwt-decode";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +10,7 @@ import { Container } from "@mui/material";
 import { IFormInputs, IAuthProps } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
-import { useAuth } from "../contexts/AuthContext";
+import { CREATE_USER, GET_TOKEN } from "../graphql/mutations";
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -56,23 +58,55 @@ export const Authentication: React.FC = () => {
 };
 
 const TabComponent: React.FC<IAuthProps> = ({ label }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [createUser] = useMutation(CREATE_USER);
+  const [getToken] = useMutation(GET_TOKEN);
+
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
   const { isDirty, isValid } = formState;
-  const { signIn, signUp } = useAuth();
   const { tabIndex } = useContext(SelectTabIndex);
+
+  useEffect(() => {
+    const storageItem = localStorage.getItem("token");
+    if (storageItem) {
+      const jwtDecodedToken = jwtDecode(storageItem);
+      // @ts-ignore
+      if (jwtDecodedToken.exp * 1000 < Date.now()) {
+        localStorage.removeItem("token");
+      } else {
+        window.location.href = "/";
+      }
+    }
+  }, []);
+
+  const onSubmit = handleSubmit(async (data, e: any) => {
+    e.preventDefault();
+
+    if (tabIndex === 0) {
+      const result = await getToken({
+        variables: { email: email, password: password },
+      });
+      localStorage.setItem("token", result.data.tokenAuth.token);
+      result.data.tokenAuth.token && (window.location.href = "/");
+    } else {
+      await createUser({
+        variables: { email: email, password: password },
+      });
+      const result = await getToken({
+        variables: { email: email, password: password },
+      });
+      localStorage.setItem("token", result.data.tokenAuth.token);
+      result.data.tokenAuth.token && (window.location.href = "/");
+    }
+  });
 
   return (
     <Container>
-      <form
-        onSubmit={
-          tabIndex === 0
-            ? handleSubmit(() => signIn)
-            : handleSubmit(() => signUp)
-        }
-      >
+      <form onSubmit={onSubmit}>
         <ComInputForm
           required
           type="email"
@@ -82,6 +116,8 @@ const TabComponent: React.FC<IAuthProps> = ({ label }) => {
           autoFocus
           register={register}
           error={errors.email}
+          value={email}
+          onChange={(e: any) => setEmail(e.target.value)}
         />
         <ComInputForm
           required
@@ -91,6 +127,8 @@ const TabComponent: React.FC<IAuthProps> = ({ label }) => {
           autoComplete="current-password"
           register={register}
           error={errors.password}
+          value={password}
+          onChange={(e: any) => setPassword(e.target.value)}
         />
         <ComSubmitButton label={label} disabled={!(isDirty && isValid)} />
       </form>
