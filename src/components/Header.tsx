@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../pages/Authentication";
 
 export const Header: React.FC = () => {
   const { currentUser } = useAuth();

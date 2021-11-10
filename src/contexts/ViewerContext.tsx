@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../pages/Authentication";
 import { GET_VIEWER } from "../graphql/queries";
 
 interface IViewer {
