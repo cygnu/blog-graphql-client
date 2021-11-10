@@ -64,15 +64,19 @@ const TabComponent: React.FC<IAuthProps> = ({ label }) => {
   const { signIn, signUp } = useAuth();
   const { tabIndex } = useContext(SelectTabIndex);
 
+  const onSubmit = async () => {
+    if (tabIndex === 0) {
+      await signIn;
+    } else if (tabIndex === 1) {
+      await signUp;
+    } else {
+      console.log(errors);
+    }
+  };
+
   return (
     <Container>
-      <form
-        onSubmit={
-          tabIndex === 0
-            ? handleSubmit(() => signIn)
-            : handleSubmit(() => signUp)
-        }
-      >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <ComInputForm
           required
           type="email"
