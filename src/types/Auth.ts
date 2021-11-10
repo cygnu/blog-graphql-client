@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface IFormInputs {
   email: string;
   password: string;
@@ -14,8 +16,11 @@ export interface IAuthProps {
 }
 
 export interface IContext {
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  password: string;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
   currentUser: User | null | undefined;
-  signUp: (data: IFormInputs) => Promise<void>;
-  signIn: (data: IFormInputs) => Promise<void>;
-  signOut: () => Promise<void>;
+  setUser: React.Dispatch<React.SetStateAction<User | null | undefined>>;
+  onSubmit: (data: IFormInputs, e: any) => Promise<void>;
 }

@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { Container } from "@mui/material";
-import { IFormInputs, IAuthProps } from "../types/Auth";
+import { IFormInputs, User, IAuthProps, IContext } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
 import { CREATE_USER, GET_TOKEN } from "../graphql/mutations";
@@ -21,23 +21,72 @@ const schema = Yup.object().shape({
     .required("Password is required"),
 });
 
-type SelectTabProps = {
-  tabIndex: number;
-  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
-};
+const AuthContext = createContext<IContext>({} as IContext);
 
-export const SelectTabIndex = createContext<SelectTabProps>(
-  {} as SelectTabProps
-);
+export const useAuth = () => useContext(AuthContext);
 
 export const Authentication: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [createUser] = useMutation(CREATE_USER);
+  const [getToken] = useMutation(GET_TOKEN);
   const [tabIndex, setTabIndex] = useState<number>(0);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
+
+  useEffect(() => {
+    const storageItem = localStorage.getItem("token");
+    if (storageItem) {
+      const jwtDecodedToken = jwtDecode<User>(storageItem);
+      if (jwtDecodedToken.exp * 1000 < Date.now()) {
+        localStorage.removeItem("token");
+      } else {
+        setUser(jwtDecodedToken);
+      }
+    }
+  }, []);
+
+  const onSubmit = async (data: IFormInputs, e: any) => {
+    e.preventDefault();
+
+    if (tabIndex === 0) {
+      const result = await getToken({
+        variables: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+      localStorage.setItem("token", result.data.tokenAuth.token);
+      result.data.tokenAuth.token && (window.location.href = "/");
+    } else if (tabIndex === 1) {
+      await createUser({
+        variables: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+      const result = await getToken({
+        variables: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+      localStorage.setItem("token", result.data.tokenAuth.token);
+      result.data.tokenAuth.token && (window.location.href = "/");
+    } else {
+      console.log(e);
+    }
+  };
 
   return (
-    <SelectTabIndex.Provider
+    <AuthContext.Provider
       value={{
-        tabIndex,
-        setTabIndex,
+        email,
+        setEmail,
+        password,
+        setPassword,
+        currentUser: user,
+        setUser,
+        onSubmit,
       }}
     >
       <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
@@ -53,60 +102,22 @@ export const Authentication: React.FC = () => {
           <TabComponent label="Register" />
         </TabPanel>
       </Tabs>
-    </SelectTabIndex.Provider>
+    </AuthContext.Provider>
   );
 };
 
 const TabComponent: React.FC<IAuthProps> = ({ label }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [createUser] = useMutation(CREATE_USER);
-  const [getToken] = useMutation(GET_TOKEN);
-
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
   const { isDirty, isValid } = formState;
-  const { tabIndex } = useContext(SelectTabIndex);
 
-  useEffect(() => {
-    const storageItem = localStorage.getItem("token");
-    if (storageItem) {
-      const jwtDecodedToken = jwtDecode(storageItem);
-      // @ts-ignore
-      if (jwtDecodedToken.exp * 1000 < Date.now()) {
-        localStorage.removeItem("token");
-      } else {
-        window.location.href = "/";
-      }
-    }
-  }, []);
-
-  const onSubmit = handleSubmit(async (data, e: any) => {
-    e.preventDefault();
-
-    if (tabIndex === 0) {
-      const result = await getToken({
-        variables: { email: email, password: password },
-      });
-      localStorage.setItem("token", result.data.tokenAuth.token);
-      result.data.tokenAuth.token && (window.location.href = "/");
-    } else {
-      await createUser({
-        variables: { email: email, password: password },
-      });
-      const result = await getToken({
-        variables: { email: email, password: password },
-      });
-      localStorage.setItem("token", result.data.tokenAuth.token);
-      result.data.tokenAuth.token && (window.location.href = "/");
-    }
-  });
+  const { email, setEmail, password, setPassword, onSubmit } = useAuth();
 
   return (
     <Container>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <ComInputForm
           required
           type="email"
