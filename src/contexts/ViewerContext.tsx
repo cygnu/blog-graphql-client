@@ -1,12 +1,12 @@
 import React, { createContext, useContext } from "react";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { useAuth } from "../pages/Authentication";
+import { useQuery } from "@apollo/react-hooks";
 import { GET_VIEWER } from "../graphql/queries";
+import { useAuth } from "../pages/Authentication";
 
 interface IViewer {
-  getViewer: any;
-  dataViewer: any | undefined;
+  loadingViewer: boolean;
   errorViewer: any | undefined;
+  dataViewer: any | undefined;
 }
 
 const ViewerContext = createContext<IViewer>({} as IViewer);
@@ -15,21 +15,26 @@ const useViewer = () => useContext(ViewerContext);
 
 const ViewerProvider: React.FC = (props: any) => {
   const { currentUser } = useAuth();
-  const [getViewer, { data: dataViewer, error: errorViewer }] = useLazyQuery(
+  const userId = currentUser?.id;
+  const {
+    loading: loadingViewer,
+    error: errorViewer,
+    data: dataViewer,
+  } = useQuery(
     GET_VIEWER,
     {
       variables: {
-        id: currentUser?.id,
-      },
+        userId
+      }
     }
   );
 
   return (
     <ViewerContext.Provider
       value={{
-        getViewer,
-        dataViewer,
+        loadingViewer,
         errorViewer,
+        dataViewer,
       }}
     >
       {props.children}
