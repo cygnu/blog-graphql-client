@@ -6,6 +6,7 @@ import { PostsList } from "./PostsList";
 
 export const Main: React.FC = () => {
   const { loadingPosts, errorPosts } = useContext(PostsContext);
+  const { loadingViewer, errorViewer } = useViewer();
 
   if (loadingPosts || loadingViewer) return <h1>Loading...</h1>;
   if (errorPosts || errorViewer) return <h1>{errorPosts.message || errorViewer.message}</h1>;
