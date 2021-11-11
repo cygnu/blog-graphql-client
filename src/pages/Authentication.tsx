@@ -85,11 +85,10 @@ export const Authentication: React.FC = () => {
         password,
         setPassword,
         currentUser: user,
-        setUser,
         onSubmit,
       }}
     >
-      <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+      <Tabs selectedIndex={tabIndex} onSelect={(tabIndex) => setTabIndex(tabIndex)}>
         <TabList>
           <Tab>Login</Tab>
           <Tab>Register</Tab>
