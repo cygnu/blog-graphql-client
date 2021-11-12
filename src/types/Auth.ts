@@ -7,7 +7,7 @@ export interface IFormInputs {
 
 export interface User extends IFormInputs {
   id: string;
-  token: string;
+  token: string | null;
   exp: number;
 }
 
@@ -20,7 +20,5 @@ export interface IContext {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  currentUser: User | null | undefined;
-  setUser: React.Dispatch<React.SetStateAction<User | null | undefined>>;
   onSubmit: (data: IFormInputs, e: any) => Promise<void>;
 }

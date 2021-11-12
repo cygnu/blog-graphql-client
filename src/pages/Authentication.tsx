@@ -1,13 +1,12 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
-import jwtDecode from "jwt-decode";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { Container } from "@mui/material";
-import { IFormInputs, User, IAuthProps, IContext } from "../types/Auth";
+import { IFormInputs, IAuthProps, IContext } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
 import { CREATE_USER, GET_TOKEN } from "../graphql/mutations";
@@ -31,19 +30,6 @@ export const Authentication: React.FC = () => {
   const [createUser] = useMutation(CREATE_USER);
   const [getToken] = useMutation(GET_TOKEN);
   const [tabIndex, setTabIndex] = useState<number>(0);
-  const [user, setUser] = useState<User | null | undefined>(undefined);
-
-  useEffect(() => {
-    const storageItem = localStorage.getItem("token");
-    if (storageItem) {
-      const jwtDecodedToken = jwtDecode<User>(storageItem);
-      if (jwtDecodedToken.exp * 1000 < Date.now()) {
-        localStorage.removeItem("token");
-      } else {
-        setUser(jwtDecodedToken);
-      }
-    }
-  }, []);
 
   const onSubmit = async (data: IFormInputs, e: any) => {
     e.preventDefault();
@@ -84,12 +70,10 @@ export const Authentication: React.FC = () => {
         setEmail,
         password,
         setPassword,
-        currentUser: user,
-        setUser,
         onSubmit,
       }}
     >
-      <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+      <Tabs selectedIndex={tabIndex} onSelect={(tabIndex) => setTabIndex(tabIndex)}>
         <TabList>
           <Tab>Login</Tab>
           <Tab>Register</Tab>

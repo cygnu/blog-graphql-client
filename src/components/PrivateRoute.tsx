@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, RouteProps, Redirect } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useViewer } from "../contexts/ViewerContext";
 
 export const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
-  const { currentUser } = useAuth();
+  const { currentUser } = useViewer();
 
-  if (currentUser === null || currentUser === undefined) {
+  if (currentUser === null || undefined) {
     return <Redirect to="/auth" />;
   } else {
     return <Route {...props} />;

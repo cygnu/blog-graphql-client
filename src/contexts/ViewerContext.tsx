@@ -1,12 +1,15 @@
-import React, { createContext, useContext } from "react";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { useAuth } from "./AuthContext";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useQuery } from "@apollo/react-hooks";
 import { GET_VIEWER } from "../graphql/queries";
+import jwtDecode from "jwt-decode";
+import { User } from "../types/Auth";
 
 interface IViewer {
-  getViewer: any;
-  dataViewer: any | undefined;
+  loadingViewer: boolean;
   errorViewer: any | undefined;
+  dataViewer: any | undefined;
+  currentUser: User | null | undefined;
+  accessToken: string | null;
 }
 
 const ViewerContext = createContext<IViewer>({} as IViewer);
@@ -14,22 +17,41 @@ const ViewerContext = createContext<IViewer>({} as IViewer);
 const useViewer = () => useContext(ViewerContext);
 
 const ViewerProvider: React.FC = (props: any) => {
-  const { currentUser } = useAuth();
-  const [getViewer, { data: dataViewer, error: errorViewer }] = useLazyQuery(
+  const accessToken = localStorage.getItem("token");
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(undefined);
+  const userId = currentUser?.id;
+  const {
+    loading: loadingViewer,
+    error: errorViewer,
+    data: dataViewer,
+  } = useQuery(
     GET_VIEWER,
     {
       variables: {
-        id: currentUser?.id,
-      },
+        userId
+      }
     }
   );
+
+  useEffect(() => {
+    if (accessToken) {
+      const jwtDecodedToken = jwtDecode<User>(accessToken);
+      if (jwtDecodedToken.exp * 1000 < Date.now()) {
+        localStorage.removeItem("token");
+      } else {
+        setCurrentUser(jwtDecodedToken);
+      }
+    }
+  }, []);
 
   return (
     <ViewerContext.Provider
       value={{
-        getViewer,
-        dataViewer,
+        loadingViewer,
         errorViewer,
+        dataViewer,
+        currentUser,
+        accessToken,
       }}
     >
       {props.children}
