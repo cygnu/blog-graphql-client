@@ -2,11 +2,9 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { useViewer } from "../contexts/ViewerContext";
-import { useAuth } from "../pages/Authentication";
 
 export const Header: React.FC = () => {
-  const { dataViewer } = useViewer();
-  const { currentUser, accessToken } = useAuth();
+  const { dataViewer, currentUser, accessToken } = useViewer();
 
   useEffect(() => {
     console.log("===== currentUser =====", currentUser);

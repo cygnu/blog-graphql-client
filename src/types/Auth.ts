@@ -20,7 +20,5 @@ export interface IContext {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  currentUser: User | null | undefined;
-  accessToken: string | null;
   onSubmit: (data: IFormInputs, e: any) => Promise<void>;
 }
