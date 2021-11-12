@@ -31,7 +31,7 @@ export const Authentication: React.FC = () => {
   const [createUser] = useMutation(CREATE_USER);
   const [getToken] = useMutation(GET_TOKEN);
   const [tabIndex, setTabIndex] = useState<number>(0);
-  const [user, setUser] = useState<User | null | undefined>(undefined);
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(undefined);
 
   useEffect(() => {
     const storageItem = localStorage.getItem("token");
@@ -40,7 +40,7 @@ export const Authentication: React.FC = () => {
       if (jwtDecodedToken.exp * 1000 < Date.now()) {
         localStorage.removeItem("token");
       } else {
-        setUser(jwtDecodedToken);
+        setCurrentUser(jwtDecodedToken);
       }
     }
   }, []);
@@ -84,7 +84,7 @@ export const Authentication: React.FC = () => {
         setEmail,
         password,
         setPassword,
-        currentUser: user,
+        currentUser,
         onSubmit,
       }}
     >
