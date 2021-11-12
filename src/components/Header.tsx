@@ -6,17 +6,18 @@ import { useAuth } from "../pages/Authentication";
 
 export const Header: React.FC = () => {
   const { dataViewer } = useViewer();
-  const { currentUser } = useAuth();
+  const { currentUser, accessToken } = useAuth();
 
   useEffect(() => {
-    (currentUser === null || undefined) && (window.location.href = "/auth");
-  }, [currentUser]);
+    console.log("===== currentUser =====", currentUser);
+    console.log("===== accessToken =====", accessToken);
+  }, [currentUser, accessToken]);
 
   return (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6">Title</Typography>
-        {currentUser !== null || undefined ? (
+        {accessToken ? (
           <Typography>{dataViewer?.viewer?.user.email}</Typography>
         ) : (
           <Button variant="outlined" size="small" component={Link} to="/auth" color="inherit">
