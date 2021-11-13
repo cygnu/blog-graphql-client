@@ -71,7 +71,10 @@ export const Authentication: React.FC = () => {
         onSubmit,
       }}
     >
-      <Tabs selectedIndex={tabIndex} onSelect={(tabIndex) => setTabIndex(tabIndex)}>
+      <Tabs
+        selectedIndex={tabIndex}
+        onSelect={(tabIndex) => setTabIndex(tabIndex)}
+      >
         <TabList>
           <Tab>Login</Tab>
           <Tab>Register</Tab>
@@ -95,7 +98,8 @@ const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
   });
   const { isDirty, isValid } = formState;
 
-  const { email, setEmail, password, setPassword, onSubmit } = useContext(AuthPageContext);
+  const { email, setEmail, password, setPassword, onSubmit } =
+    useContext(AuthPageContext);
 
   return (
     <Container>

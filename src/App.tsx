@@ -3,7 +3,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { ViewerProvider} from "./contexts/ViewerContext";
+import { ViewerProvider } from "./contexts/ViewerContext";
 import { PostsProvider } from "./contexts/PostsContext";
 import { PostProvider } from "./contexts/PostContext";
 import { Authentication } from "./pages/Authentication";

@@ -19,7 +19,13 @@ export const Header: React.FC = () => {
         {accessToken ? (
           <Typography>{dataViewer?.viewer?.user.email}</Typography>
         ) : (
-          <Button variant="outlined" size="small" component={Link} to="/auth" color="inherit">
+          <Button
+            variant="outlined"
+            size="small"
+            component={Link}
+            to="/auth"
+            color="inherit"
+          >
             Login
           </Button>
         )}
