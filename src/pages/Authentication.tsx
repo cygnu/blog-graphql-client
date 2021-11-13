@@ -20,9 +20,7 @@ const schema = Yup.object().shape({
     .required("Password is required"),
 });
 
-const AuthContext = createContext<IContext>({} as IContext);
-
-export const useAuth = () => useContext(AuthContext);
+const AuthPageContext = createContext<IContext>({} as IContext);
 
 export const Authentication: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -64,7 +62,7 @@ export const Authentication: React.FC = () => {
   };
 
   return (
-    <AuthContext.Provider
+    <AuthPageContext.Provider
       value={{
         email,
         setEmail,
@@ -86,7 +84,7 @@ export const Authentication: React.FC = () => {
           <TabComponent label="Register" />
         </TabPanel>
       </Tabs>
-    </AuthContext.Provider>
+    </AuthPageContext.Provider>
   );
 };
 
@@ -97,7 +95,7 @@ const TabComponent: React.FC<IAuthProps> = ({ label }) => {
   });
   const { isDirty, isValid } = formState;
 
-  const { email, setEmail, password, setPassword, onSubmit } = useAuth();
+  const { email, setEmail, password, setPassword, onSubmit } = useContext(AuthPageContext);
 
   return (
     <Container>
