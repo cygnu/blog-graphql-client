@@ -11,25 +11,24 @@ const useViewer = () => useContext(ViewerContext);
 
 const ViewerProvider: React.FC = (props: any) => {
   const accessToken = localStorage.getItem("token");
-  const [currentUser, setCurrentUser] = useState<User | null | undefined>(undefined);
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(
+    undefined
+  );
   const userId = currentUser?.id;
   const {
     loading: loadingViewer,
     error: errorViewer,
     data: dataViewer,
-  } = useQuery(
-    GET_VIEWER,
-    {
-      variables: {
-        userId
-      }
-    }
-  );
+  } = useQuery(GET_VIEWER, {
+    variables: {
+      userId,
+    },
+  });
 
   useEffect(() => {
     if (accessToken) {
       const jwtDecodedToken = jwtDecode<User>(accessToken);
-      (jwtDecodedToken.exp * 1000 < Date.now())
+      jwtDecodedToken.exp * 1000 < Date.now()
         ? localStorage.removeItem("token")
         : setCurrentUser(jwtDecodedToken);
     }
