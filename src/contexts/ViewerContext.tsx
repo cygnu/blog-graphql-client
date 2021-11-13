@@ -2,15 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_VIEWER } from "../graphql/queries";
 import jwtDecode from "jwt-decode";
+import { IViewer } from "../types/Viewer";
 import { User } from "../types/Auth";
-
-interface IViewer {
-  loadingViewer: boolean;
-  errorViewer: any | undefined;
-  dataViewer: any | undefined;
-  currentUser: User | null | undefined;
-  accessToken: string | null;
-}
 
 const ViewerContext = createContext<IViewer>({} as IViewer);
 
