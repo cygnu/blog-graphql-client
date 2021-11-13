@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { useAuth } from "../contexts/AuthContext"
 import { useViewer } from "../contexts/ViewerContext";
 
 export const Header: React.FC = () => {
