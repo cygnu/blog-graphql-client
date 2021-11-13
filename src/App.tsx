@@ -3,7 +3,9 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { PrivateRoute } from "./components/PrivateRoute";
+import { ViewerProvider} from "./contexts/ViewerContext";
+import { PostsProvider } from "./contexts/PostsContext";
+import { PostProvider } from "./contexts/PostContext";
 import { Authentication } from "./pages/Authentication";
 import { MergePost } from "./pages/MergePost";
 import { PostDetails } from "./components/PostDetails";
@@ -35,11 +37,16 @@ export const App: React.FC = () => {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={TopPage} />
-          <Route exact path="/auth" component={Authentication} />
-          <Route exact path="/posts/create" component={MergePost} />
-          <PrivateRoute path="/posts/:id/edit" component={MergePost} />
-          <Route path="/posts/:id" component={PostDetails} />
+          <ViewerProvider>
+            <PostsProvider>
+              <PostProvider>
+                <Route exact path="/" component={TopPage} />
+                <Route exact path="/auth" component={Authentication} />
+                <Route path="/posts/:id" component={PostDetails} />
+                <Route exact path="/posts" component={MergePost} />
+              </PostProvider>
+            </PostsProvider>
+          </ViewerProvider>
         </Switch>
       </BrowserRouter>
     </ApolloProvider>
