@@ -23,7 +23,7 @@ const AuthProvider: React.FC = (props: any) => {
         ? localStorage.removeItem("token")
         : setCurrentUser(jwtDecodedToken);
     }
-  }, []);
+  }, [currentUser, accessToken]);
 
   const signUp = async (data: IFormInputs) => {
     await createUser({
