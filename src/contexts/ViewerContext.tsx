@@ -36,13 +36,11 @@ const ViewerProvider: React.FC = (props: any) => {
   useEffect(() => {
     if (accessToken) {
       const jwtDecodedToken = jwtDecode<User>(accessToken);
-      if (jwtDecodedToken.exp * 1000 < Date.now()) {
-        localStorage.removeItem("token");
-      } else {
-        setCurrentUser(jwtDecodedToken);
-      }
+      (jwtDecodedToken.exp * 1000 < Date.now())
+        ? localStorage.removeItem("token")
+        : setCurrentUser(jwtDecodedToken);
     }
-  }, []);
+  }, [accessToken]);
 
   return (
     <ViewerContext.Provider
