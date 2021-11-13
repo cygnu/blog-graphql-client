@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from "react";
-import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,7 +8,7 @@ import { Container } from "@mui/material";
 import { IFormInputs, IAuthPageProps, IAuthPageContext } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
-import { CREATE_USER, GET_TOKEN } from "../graphql/mutations";
+import { useAuth } from "../contexts/AuthContext";
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -23,52 +22,12 @@ const schema = Yup.object().shape({
 const AuthPageContext = createContext<IAuthPageContext>({} as IAuthPageContext);
 
 export const Authentication: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [createUser] = useMutation(CREATE_USER);
-  const [getToken] = useMutation(GET_TOKEN);
   const [tabIndex, setTabIndex] = useState<number>(0);
-
-  const onSubmit = async (data: IFormInputs, e: any) => {
-    e.preventDefault();
-
-    if (tabIndex === 0) {
-      const result = await getToken({
-        variables: {
-          email: data.email,
-          password: data.password,
-        },
-      });
-      localStorage.setItem("token", result.data.tokenAuth.token);
-      result.data.tokenAuth.token && (window.location.href = "/");
-    } else if (tabIndex === 1) {
-      await createUser({
-        variables: {
-          email: data.email,
-          password: data.password,
-        },
-      });
-      const result = await getToken({
-        variables: {
-          email: data.email,
-          password: data.password,
-        },
-      });
-      localStorage.setItem("token", result.data.tokenAuth.token);
-      result.data.tokenAuth.token && (window.location.href = "/");
-    } else {
-      console.log(e);
-    }
-  };
 
   return (
     <AuthPageContext.Provider
       value={{
-        email,
-        setEmail,
-        password,
-        setPassword,
-        onSubmit,
+        tabIndex,
       }}
     >
       <Tabs
@@ -98,12 +57,20 @@ const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
   });
   const { isDirty, isValid } = formState;
 
-  const { email, setEmail, password, setPassword, onSubmit } =
-    useContext(AuthPageContext);
+  const { tabIndex } = useContext(AuthPageContext);
+  const { signIn, signUp } = useAuth();
+
+  const onSubmit = () => {
+    if (tabIndex === 0) {
+      handleSubmit(signIn);
+    } else if (tabIndex === 1) {
+      handleSubmit(signUp);
+    }
+  };
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <ComInputForm
           required
           type="email"
@@ -113,8 +80,6 @@ const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
           autoFocus
           register={register}
           error={errors.email}
-          value={email}
-          onChange={(e: any) => setEmail(e.target.value)}
         />
         <ComInputForm
           required
@@ -124,8 +89,6 @@ const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
           autoComplete="current-password"
           register={register}
           error={errors.password}
-          value={password}
-          onChange={(e: any) => setPassword(e.target.value)}
         />
         <ComSubmitButton label={label} disabled={!(isDirty && isValid)} />
       </form>

@@ -16,11 +16,7 @@ export interface IAuthPageProps {
 }
 
 export interface IAuthPageContext {
-  email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-  password: string;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
-  onSubmit: (data: IFormInputs, e: any) => Promise<void>;
+  tabIndex: number;
 }
 
 export interface IAuthContext {

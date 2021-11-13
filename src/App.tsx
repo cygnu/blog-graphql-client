@@ -3,6 +3,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 import { ViewerProvider } from "./contexts/ViewerContext";
 import { PostsProvider } from "./contexts/PostsContext";
 import { PostProvider } from "./contexts/PostContext";
@@ -37,16 +38,18 @@ export const App: React.FC = () => {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Switch>
-          <ViewerProvider>
-            <PostsProvider>
-              <PostProvider>
-                <Route exact path="/" component={TopPage} />
-                <Route exact path="/auth" component={Authentication} />
-                <Route path="/posts/:id" component={PostDetails} />
-                <Route exact path="/posts" component={MergePost} />
-              </PostProvider>
-            </PostsProvider>
-          </ViewerProvider>
+          <AuthProvider>
+            <ViewerProvider>
+              <PostsProvider>
+                <PostProvider>
+                  <Route exact path="/" component={TopPage} />
+                  <Route exact path="/auth" component={Authentication} />
+                  <Route path="/posts/:id" component={PostDetails} />
+                  <Route exact path="/posts" component={MergePost} />
+                </PostProvider>
+              </PostsProvider>
+            </ViewerProvider>
+          </AuthProvider>
         </Switch>
       </BrowserRouter>
     </ApolloProvider>
