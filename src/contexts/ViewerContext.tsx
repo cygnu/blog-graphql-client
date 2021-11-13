@@ -41,8 +41,6 @@ const ViewerProvider: React.FC = (props: any) => {
         loadingViewer,
         errorViewer,
         dataViewer,
-        currentUser,
-        accessToken,
       }}
     >
       {props.children}

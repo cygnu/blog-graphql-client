@@ -4,7 +4,8 @@ import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { useViewer } from "../contexts/ViewerContext";
 
 export const Header: React.FC = () => {
-  const { dataViewer, currentUser, accessToken } = useViewer();
+  const { currentUser, accessToken } = useAuth();
+  const { dataViewer } = useViewer();
 
   useEffect(() => {
     console.log("===== currentUser =====", currentUser);

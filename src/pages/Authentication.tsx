@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { Container } from "@mui/material";
-import { IFormInputs, IAuthProps, IContext } from "../types/Auth";
+import { IFormInputs, IAuthPageProps, IAuthPageContext } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
 import { CREATE_USER, GET_TOKEN } from "../graphql/mutations";
@@ -20,7 +20,7 @@ const schema = Yup.object().shape({
     .required("Password is required"),
 });
 
-const AuthPageContext = createContext<IContext>({} as IContext);
+const AuthPageContext = createContext<IAuthPageContext>({} as IAuthPageContext);
 
 export const Authentication: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -88,7 +88,7 @@ export const Authentication: React.FC = () => {
   );
 };
 
-const TabComponent: React.FC<IAuthProps> = ({ label }) => {
+const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema),
