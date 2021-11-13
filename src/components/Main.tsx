@@ -12,8 +12,8 @@ export const Main: React.FC = () => {
   if (errorPosts || errorViewer)
     return (
       <React.Fragment>
-        <h1>{errorPosts.message}</h1>
-        <h1>{errorViewer.message}</h1>
+        <h1>{errorPosts?.message}</h1>
+        <h1>{errorViewer?.message}</h1>
       </React.Fragment>
     );
 
