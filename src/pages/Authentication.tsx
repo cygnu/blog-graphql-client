@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { Container } from "@mui/material";
-import { IFormInputs, IAuthPageProps, IAuthPageContext } from "../types/Auth";
+import { IFormInputs, IAuthPageContext } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
 import { useAuth } from "../contexts/AuthContext";
@@ -40,17 +40,17 @@ export const Authentication: React.FC = () => {
         </TabList>
 
         <TabPanel>
-          <TabComponent label="Login" />
+          <TabComponent />
         </TabPanel>
         <TabPanel>
-          <TabComponent label="Register" />
+          <TabComponent />
         </TabPanel>
       </Tabs>
     </AuthPageContext.Provider>
   );
 };
 
-const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
+const TabComponent: React.FC = () => {
   const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -90,7 +90,11 @@ const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
           register={register}
           error={errors.password}
         />
-        <ComSubmitButton label={label} disabled={!(isDirty && isValid)} />
+        <ComSubmitButton label={
+          (tabIndex === 0)
+            ? "Login"
+            : "Register"
+        } disabled={!(isDirty && isValid)} />
       </form>
     </Container>
   );

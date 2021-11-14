@@ -9,10 +9,6 @@ export interface User extends IFormInputs {
   exp: number;
 }
 
-export interface IAuthPageProps {
-  label: string;
-}
-
 export interface IAuthPageContext {
   tabIndex: number;
 }
