@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
       <Toolbar>
         <Typography variant="h6">Title</Typography>
         {accessToken ? (
-          <Typography>{dataViewer?.viewer?.user.email}</Typography>
+          <Typography>{dataViewer?.viewer?.email}</Typography>
         ) : (
           <Button
             variant="outlined"
