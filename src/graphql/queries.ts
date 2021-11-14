@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_VIEWER = gql`
-  query ($userId: Uuid!) {
-    viewer(id: $userId) {
+  query {
+    viewer {
       id
       email
     }
