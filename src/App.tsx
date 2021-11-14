@@ -11,6 +11,7 @@ import { Authentication } from "./pages/Authentication";
 import { MergePost } from "./pages/MergePost";
 import { PostDetails } from "./components/PostDetails";
 import { TopPage } from "./pages/TopPage";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 const httpLink = createHttpLink({
   uri: "http://127.0.0.1:8000/graphql/",
@@ -44,8 +45,8 @@ export const App: React.FC = () => {
                 <PostProvider>
                   <Route exact path="/" component={TopPage} />
                   <Route exact path="/auth" component={Authentication} />
+                  <PrivateRoute exact path="/posts/new" component={MergePost} />
                   <Route path="/posts/:id" component={PostDetails} />
-                  <Route exact path="/posts" component={MergePost} />
                 </PostProvider>
               </PostsProvider>
             </ViewerProvider>
