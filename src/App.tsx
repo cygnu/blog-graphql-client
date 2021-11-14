@@ -1,7 +1,7 @@
 import React from "react";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ViewerProvider } from "./contexts/ViewerContext";
@@ -13,24 +13,28 @@ import { PostDetails } from "./components/PostDetails";
 import { TopPage } from "./pages/TopPage";
 import { PrivateRoute } from "./components/PrivateRoute";
 
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: "http://127.0.0.1:8000/graphql/",
 });
 
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem("token");
-  // return the headers to the contexts so httpLink can read them
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `JWT ${token}` : "",
-    },
-  };
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+      ),
+    );
+
+  if (networkError)
+    console.log(`[Network error]: ${networkError}`);
 });
 
+// If you provide a link chain to ApolloClient, you
+// don't provide the `uri` option.
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  // The `from` function combines an array of individual links
+  // into a link chain
+  link: from([errorLink, httpLink]),
   cache: new InMemoryCache(),
 });
 
