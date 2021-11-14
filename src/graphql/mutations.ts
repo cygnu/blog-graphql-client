@@ -40,16 +40,18 @@ export const CREATE_PROFILE = gql`
         bio: $bio
       }
     ) {
-      user {
-        id
-        username
-        firstName
-        lastName
+      profile {
+        user {
+          id
+          username
+          firstName
+          lastName
+        }
+        avatar
+        backgroundImage
+        local
+        bio
       }
-      avatar
-      backgroundImage
-      local
-      bio
     }
   }
 `;
@@ -77,16 +79,18 @@ export const UPDATE_PROFILE = gql`
         bio: $bio
       }
     ) {
-      user {
-        id
-        username
-        firstName
-        lastName
+      profile {
+        user {
+          id
+          username
+          firstName
+          lastName
+        }
+        avatar
+        backgroundImage
+        local
+        bio
       }
-      avatar
-      backgroundImage
-      local
-      bio
     }
   }
 `;
@@ -269,8 +273,7 @@ export const UPDATE_POST = gql`
 export const DELETE_POST = gql`
   mutation ($id: Uuid!) {
     deletePost(input: { id: $id })
-  }
-  {
+  } {
     post {
       id
     }
