@@ -11,8 +11,10 @@ import { ComSubmitButton } from "../atoms/ComSubmitButton";
 import { useAuth } from "../contexts/AuthContext";
 import { css } from "@emotion/react";
 
-const container = css`
-  margin: 0 auto;
+const containerTabs = css`
+  margin: 15vh auto 0;
+  text-align: center;
+  width: 70%;
 `
 
 const containerForm = css`
@@ -20,6 +22,19 @@ const containerForm = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`
+
+const cFEmail = css`
+  margin-top: 0.5em;
+`
+
+const cFPassword = css`
+  margin-top: 0.5em;
+`
+
+const cFSubmit = css`
+  margin-top: 30px;
+  margin-bottom: 0.5em;
 `
 
 const schema = Yup.object().shape({
@@ -45,6 +60,7 @@ export const Authentication: React.FC = () => {
       <Tabs
         selectedIndex={tabIndex}
         onSelect={(tabIndex) => setTabIndex(tabIndex)}
+        css={containerTabs}
       >
         <TabList>
           <Tab>Login</Tab>
@@ -81,7 +97,7 @@ const TabComponent: React.FC = () => {
   };
 
   return (
-    <Container css={container}>
+    <Container>
       <form onSubmit={onSubmit} css={containerForm}>
         <ComInputForm
           required
@@ -92,6 +108,7 @@ const TabComponent: React.FC = () => {
           autoFocus
           register={register}
           error={errors.email}
+          css={cFEmail}
         />
         <ComInputForm
           required
@@ -101,6 +118,7 @@ const TabComponent: React.FC = () => {
           autoComplete="current-password"
           register={register}
           error={errors.password}
+          css={cFPassword}
         />
         <ComSubmitButton
           label={
@@ -109,6 +127,7 @@ const TabComponent: React.FC = () => {
             : "Register"
           }
           disabled={!(isDirty && isValid)}
+          css={cFSubmit}
         />
       </form>
     </Container>
