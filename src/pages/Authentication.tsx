@@ -9,6 +9,18 @@ import { IFormInputs, IAuthPageContext } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
 import { useAuth } from "../contexts/AuthContext";
+import { css } from "@emotion/react";
+
+const container = css`
+  margin: 0 auto;
+`
+
+const containerForm = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -69,8 +81,8 @@ const TabComponent: React.FC = () => {
   };
 
   return (
-    <Container>
-      <form onSubmit={onSubmit}>
+    <Container css={container}>
+      <form onSubmit={onSubmit} css={containerForm}>
         <ComInputForm
           required
           type="email"
@@ -90,11 +102,14 @@ const TabComponent: React.FC = () => {
           register={register}
           error={errors.password}
         />
-        <ComSubmitButton label={
+        <ComSubmitButton
+          label={
           (tabIndex === 0)
             ? "Login"
             : "Register"
-        } disabled={!(isDirty && isValid)} />
+          }
+          disabled={!(isDirty && isValid)}
+        />
       </form>
     </Container>
   );
