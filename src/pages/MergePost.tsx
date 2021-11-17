@@ -47,7 +47,7 @@ export const MergePost: React.FC = () => {
     await createPost({
       variables: {
         title: data.title,
-        author: dataViewer.viewer.user.username,
+        author: dataViewer.viewer.email,
         description: data.description,
         thumbnail: data.thumbnail,
         content: data.content,
@@ -64,7 +64,7 @@ export const MergePost: React.FC = () => {
       variables: {
         id: dataPost?.post?.id,
         title: data.title,
-        author: dataViewer.viewer.user.username,
+        author: dataViewer.viewer.email,
         description: data.description,
         thumbnail: data.thumbnail,
         content: data.content,
