@@ -32,9 +32,22 @@ const containerForm = css`
   }
 `
 
+const cFInputForm = css`
+  margin-top: 0.5em;
+`
+
+const cFInputFile = css`
+  margin: 0.5em 0;
+`
+
 const cFSwitch = css`
   align-items: start;
   width: 100%;
+`
+
+const cFSubmit = css`
+  margin-top: 30px;
+  margin-bottom: 0.5em;
 `
 
 const schema = Yup.object().shape({
@@ -123,6 +136,7 @@ export const MergePost: React.FC = () => {
           label="Title"
           register={register}
           error={errors.title}
+          css={cFInputForm}
         />
         <ComInputForm
           type="input"
@@ -130,11 +144,13 @@ export const MergePost: React.FC = () => {
           label="Description"
           register={register}
           error={errors.description}
+          css={cFInputForm}
         />
         <ComInputFile
           name="thumbnail"
           register={register}
           error={errors.thumbnail}
+          css={cFInputFile}
         />
         <Controller
           name="content"
@@ -172,6 +188,7 @@ export const MergePost: React.FC = () => {
           label="Category"
           register={register}
           error={errors.category}
+          css={cFInputForm}
         />
         <FormControl css={cFSwitch}>
           <Switch
@@ -180,7 +197,7 @@ export const MergePost: React.FC = () => {
             inputRef={register}
           />
         </FormControl>
-        <ComSubmitButton label="Submit" />
+        <ComSubmitButton label="Submit" css={cFSubmit} />
       </form>
     </Container>
   );

@@ -28,11 +28,7 @@ const containerForm = css`
   }
 `
 
-const cFEmail = css`
-  margin-top: 0.5em;
-`
-
-const cFPassword = css`
+const cFInputForm = css`
   margin-top: 0.5em;
 `
 
@@ -112,7 +108,7 @@ const TabComponent: React.FC = () => {
           autoFocus
           register={register}
           error={errors.email}
-          css={cFEmail}
+          css={cFInputForm}
         />
         <ComInputForm
           required
@@ -122,7 +118,7 @@ const TabComponent: React.FC = () => {
           autoComplete="current-password"
           register={register}
           error={errors.password}
-          css={cFPassword}
+          css={cFInputForm}
         />
         <ComSubmitButton
           label={
