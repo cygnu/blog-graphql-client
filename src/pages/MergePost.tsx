@@ -10,10 +10,15 @@ import { IFormInputs } from "../types/Post";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComInputFile } from "../atoms/ComInputFile";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
-import { MarkdownEditor } from "../components/MarkdownEditor";
 import { PostContext } from "../contexts/PostContext";
 import { useViewer } from "../contexts/ViewerContext";
 import { CREATE_POST, UPDATE_POST } from "../graphql/mutations";
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
+import marked from "marked";
+// @ts-ignore
+import highlight from "highlightjs";
+import "highlightjs/styles/shades-of-purple.css";
 
 const schema = Yup.object().shape({
   title: Yup.string()
@@ -36,8 +41,15 @@ const schema = Yup.object().shape({
   isPublish: Yup.boolean().default(false),
 });
 
+marked.setOptions({
+  highlight: function (code, lang) {
+    return highlight.highlightAuto(code, [lang.split(":")[0]]).value;
+  },
+});
+
 export const MergePost: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]);
+  const [markdown, setMarkdown] = useState<string>("");
   const [createPost] = useMutation(CREATE_POST);
   const [updatePost] = useMutation(UPDATE_POST);
   const { dataPost } = useContext(PostContext);
@@ -108,7 +120,17 @@ export const MergePost: React.FC = () => {
         />
         <Controller
           name="content"
-          as={<MarkdownEditor />}
+          render={({ ref }) => (
+            <React.Fragment>
+              <SimpleMDE
+                onChange={(e) => setMarkdown(e)}
+                ref={ref}
+              />
+              <div>
+                <span dangerouslySetInnerHTML={{ __html: marked(markdown) }} />
+              </div>
+            </React.Fragment>
+          )}
           control={control}
           defaultValue=""
         />
@@ -134,7 +156,11 @@ export const MergePost: React.FC = () => {
           error={errors.category}
         />
         <FormControl>
-          <Switch color="primary" name="isPublish" inputRef={register} />
+          <Switch
+            color="primary"
+            name="isPublish"
+            inputRef={register}
+          />
         </FormControl>
         <ComSubmitButton label="Submit" />
       </form>
