@@ -19,6 +19,23 @@ import marked from "marked";
 // @ts-ignore
 import highlight from "highlightjs";
 import "highlightjs/styles/shades-of-purple.css";
+import { css } from "@emotion/react";
+
+const containerForm = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15vh auto 0;
+  width: 100%;
+  @media (min-width: 480px) {
+    max-width: 480px;
+  }
+`
+
+const cFSwitch = css`
+  align-items: start;
+  width: 100%;
+`
 
 const schema = Yup.object().shape({
   title: Yup.string()
@@ -96,6 +113,7 @@ export const MergePost: React.FC = () => {
     <Container>
       <form
         onSubmit={handleSubmit(dataPost?.post?.id ? postUpdated : postCreated)}
+        css={containerForm}
       >
         <ComInputForm
           autoFocus
@@ -155,7 +173,7 @@ export const MergePost: React.FC = () => {
           register={register}
           error={errors.category}
         />
-        <FormControl>
+        <FormControl css={cFSwitch}>
           <Switch
             color="primary"
             name="isPublish"
