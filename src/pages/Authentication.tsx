@@ -20,8 +20,12 @@ const containerTabs = css`
 const containerForm = css`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  @media (min-width: 480px) {
+    max-width: 480px;
+  }
 `
 
 const cFEmail = css`
