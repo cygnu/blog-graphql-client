@@ -5,13 +5,12 @@ import { PostContext } from "../contexts/PostContext";
 import { useViewer } from "../contexts/ViewerContext";
 
 export const PostsList: React.FC = () => {
-  const { loadingPosts, errorPosts, dataPosts } = useContext(PostsContext);
-  const { loadingViewer, errorViewer } = useViewer();
+  const { errorPosts, dataPosts } = useContext(PostsContext);
+  const { errorViewer } = useViewer();
   const { getPost } = useContext(PostContext);
 
   return (
     <React.Fragment>
-      {(loadingPosts || loadingViewer) && <h1>Loading...</h1>}
       {(errorPosts || errorViewer) && (
         <React.Fragment>
           <h1>{errorPosts?.message}</h1>

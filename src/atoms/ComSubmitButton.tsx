@@ -8,7 +8,7 @@ export const ComSubmitButton = ({
   ...inputProps
 }: any) => {
   return (
-    <FormControl>
+    <FormControl fullWidth>
       <Button type="submit" variant="contained" color="primary" {...inputProps}>
         {label}
       </Button>

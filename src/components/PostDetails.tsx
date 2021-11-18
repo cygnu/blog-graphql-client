@@ -41,7 +41,6 @@ type PostDetailsProps = RouteComponentProps<{
 
 export const PostDetails: React.FC<PostDetailsProps> = (props) => {
   const { dataPost, errorPost } = useContext(PostContext);
-  const markdown = dataPost.post.content;
 
   return (
     <Container>
@@ -53,7 +52,7 @@ export const PostDetails: React.FC<PostDetailsProps> = (props) => {
           <h1>{dataPost.post.title}</h1>
           <p>{dataPost.post.author}</p>
           <p>{dataPost.post.updatedAt}</p>
-          <MarkdownViewer markdown={markdown} />
+          <MarkdownViewer markdown={dataPost.post.content} />
         </React.Fragment>
       ) : (
         <React.Fragment />

@@ -10,10 +10,45 @@ import { IFormInputs } from "../types/Post";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComInputFile } from "../atoms/ComInputFile";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
-import { MarkdownEditor } from "../components/MarkdownEditor";
 import { PostContext } from "../contexts/PostContext";
 import { useViewer } from "../contexts/ViewerContext";
 import { CREATE_POST, UPDATE_POST } from "../graphql/mutations";
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
+import marked from "marked";
+// @ts-ignore
+import highlight from "highlightjs";
+import "highlightjs/styles/shades-of-purple.css";
+import { css } from "@emotion/react";
+
+const containerForm = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15vh auto 0;
+  width: 100%;
+  @media (min-width: 480px) {
+    max-width: 480px;
+  }
+`
+
+const cFInputForm = css`
+  margin-top: 0.5em;
+`
+
+const cFInputFile = css`
+  margin: 0.5em 0;
+`
+
+const cFSwitch = css`
+  align-items: start;
+  width: 100%;
+`
+
+const cFSubmit = css`
+  margin-top: 30px;
+  margin-bottom: 0.5em;
+`
 
 const schema = Yup.object().shape({
   title: Yup.string()
@@ -36,8 +71,15 @@ const schema = Yup.object().shape({
   isPublish: Yup.boolean().default(false),
 });
 
+marked.setOptions({
+  highlight: function (code, lang) {
+    return highlight.highlightAuto(code, [lang.split(":")[0]]).value;
+  },
+});
+
 export const MergePost: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]);
+  const [markdown, setMarkdown] = useState<string>("");
   const [createPost] = useMutation(CREATE_POST);
   const [updatePost] = useMutation(UPDATE_POST);
   const { dataPost } = useContext(PostContext);
@@ -47,7 +89,7 @@ export const MergePost: React.FC = () => {
     await createPost({
       variables: {
         title: data.title,
-        author: dataViewer.viewer.user.username,
+        author: dataViewer.viewer.email,
         description: data.description,
         thumbnail: data.thumbnail,
         content: data.content,
@@ -64,7 +106,7 @@ export const MergePost: React.FC = () => {
       variables: {
         id: dataPost?.post?.id,
         title: data.title,
-        author: dataViewer.viewer.user.username,
+        author: dataViewer.viewer.email,
         description: data.description,
         thumbnail: data.thumbnail,
         content: data.content,
@@ -84,6 +126,7 @@ export const MergePost: React.FC = () => {
     <Container>
       <form
         onSubmit={handleSubmit(dataPost?.post?.id ? postUpdated : postCreated)}
+        css={containerForm}
       >
         <ComInputForm
           autoFocus
@@ -93,6 +136,7 @@ export const MergePost: React.FC = () => {
           label="Title"
           register={register}
           error={errors.title}
+          css={cFInputForm}
         />
         <ComInputForm
           type="input"
@@ -100,15 +144,27 @@ export const MergePost: React.FC = () => {
           label="Description"
           register={register}
           error={errors.description}
+          css={cFInputForm}
         />
         <ComInputFile
           name="thumbnail"
           register={register}
           error={errors.thumbnail}
+          css={cFInputFile}
         />
         <Controller
           name="content"
-          as={<MarkdownEditor />}
+          render={({ ref }) => (
+            <React.Fragment>
+              <SimpleMDE
+                onChange={(e) => setMarkdown(e)}
+                ref={ref}
+              />
+              <div>
+                <span dangerouslySetInnerHTML={{ __html: marked(markdown) }} />
+              </div>
+            </React.Fragment>
+          )}
           control={control}
           defaultValue=""
         />
@@ -132,11 +188,16 @@ export const MergePost: React.FC = () => {
           label="Category"
           register={register}
           error={errors.category}
+          css={cFInputForm}
         />
-        <FormControl>
-          <Switch color="primary" name="isPublish" inputRef={register} />
+        <FormControl css={cFSwitch}>
+          <Switch
+            color="primary"
+            name="isPublish"
+            inputRef={register}
+          />
         </FormControl>
-        <ComSubmitButton label="Submit" />
+        <ComSubmitButton label="Submit" css={cFSubmit} />
       </form>
     </Container>
   );

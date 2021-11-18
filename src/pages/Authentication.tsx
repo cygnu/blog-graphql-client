@@ -9,6 +9,33 @@ import { IFormInputs, IAuthPageContext } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
 import { useAuth } from "../contexts/AuthContext";
+import { css } from "@emotion/react";
+
+const containerTabs = css`
+  margin: 15vh auto 0;
+  text-align: center;
+  width: 70%;
+`
+
+const containerForm = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  @media (min-width: 480px) {
+    max-width: 480px;
+  }
+`
+
+const cFInputForm = css`
+  margin-top: 0.5em;
+`
+
+const cFSubmit = css`
+  margin-top: 30px;
+  margin-bottom: 0.5em;
+`
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -33,6 +60,7 @@ export const Authentication: React.FC = () => {
       <Tabs
         selectedIndex={tabIndex}
         onSelect={(tabIndex) => setTabIndex(tabIndex)}
+        css={containerTabs}
       >
         <TabList>
           <Tab>Login</Tab>
@@ -70,7 +98,7 @@ const TabComponent: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} css={containerForm}>
         <ComInputForm
           required
           type="email"
@@ -80,6 +108,7 @@ const TabComponent: React.FC = () => {
           autoFocus
           register={register}
           error={errors.email}
+          css={cFInputForm}
         />
         <ComInputForm
           required
@@ -89,12 +118,17 @@ const TabComponent: React.FC = () => {
           autoComplete="current-password"
           register={register}
           error={errors.password}
+          css={cFInputForm}
         />
-        <ComSubmitButton label={
+        <ComSubmitButton
+          label={
           (tabIndex === 0)
             ? "Login"
             : "Register"
-        } disabled={!(isDirty && isValid)} />
+          }
+          disabled={!(isDirty && isValid)}
+          css={cFSubmit}
+        />
       </form>
     </Container>
   );
