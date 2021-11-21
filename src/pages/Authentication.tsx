@@ -1,14 +1,17 @@
 import React, { createContext, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@apollo/client";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { Container } from "@mui/material";
-import { IFormInputs, IAuthPageContext } from "../types/Auth";
+import { IFormInputs, IAuthPageContext, User } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
 import { useAuth } from "../contexts/AuthContext";
+import jwtDecode from "jwt-decode";
+import { GET_TOKEN } from "../graphql/mutations";
 import { css } from "@emotion/react";
 
 const containerTabs = css`
@@ -79,26 +82,44 @@ export const Authentication: React.FC = () => {
 };
 
 const TabComponent: React.FC = () => {
-  const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    formState: { isDirty, isValid },
+  } = useForm<IFormInputs>({
     mode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
     resolver: yupResolver(schema),
   });
-  const { isDirty, isValid } = formState;
 
   const { tabIndex } = useContext(AuthPageContext);
-  const { signIn, signUp } = useAuth();
+  const [getToken] = useMutation(GET_TOKEN);
+  const { setCurrentUser } = useAuth();
 
-  const onSubmit = () => {
-    if (tabIndex === 0) {
-      handleSubmit(signIn);
-    } else if (tabIndex === 1) {
-      handleSubmit(signUp);
+  const signIn = handleSubmit(async (data: IFormInputs) => {
+    try {
+      const result = await getToken({
+        variables: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+      const token: string = result.data?.tokenAuth.token;
+      localStorage.setItem("token", token);
+      setCurrentUser(jwtDecode<User>(token));
+      token && (window.location.href = "/");
+    } catch (e) {
+      console.log(e);
     }
-  };
+  });
 
   return (
     <Container>
-      <form onSubmit={onSubmit} css={containerForm}>
+      <form onSubmit={signIn} css={containerForm}>
         <ComInputForm
           required
           type="email"
@@ -121,11 +142,7 @@ const TabComponent: React.FC = () => {
           css={cFInputForm}
         />
         <ComSubmitButton
-          label={
-          (tabIndex === 0)
-            ? "Login"
-            : "Register"
-          }
+          label={tabIndex === 0 ? "Login" : "Register"}
           disabled={!(isDirty && isValid)}
           css={cFSubmit}
         />

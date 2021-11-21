@@ -1,3 +1,5 @@
+import { ApolloError } from "@apollo/client";
+
 export interface IFormInputs {
   id: string;
   title: string;
@@ -13,11 +15,11 @@ export interface IFormInputs {
 export interface IPost {
   getPost: any;
   dataPost: any | undefined;
-  errorPost: any | undefined;
+  errorPost: ApolloError | undefined;
 }
 
 export interface IPosts {
   loadingPosts: boolean;
-  errorPosts: any | undefined;
+  errorPosts: ApolloError | undefined;
   dataPosts: any | undefined;
 }
