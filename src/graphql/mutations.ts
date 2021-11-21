@@ -31,7 +31,9 @@ export const CREATE_PROFILE = gql`
   ) {
     createProfile(
       input: {
-        username: $username
+        userProfInput: {
+          username: $username
+        }
         firstName: $firstName
         lastName: $lastName
         avatar: $avatar
@@ -70,7 +72,9 @@ export const UPDATE_PROFILE = gql`
     createProfile(
       input: {
         id: $id
-        username: $username
+        userProfInput: {
+          username: $username
+        }
         firstName: $firstName
         lastName: $lastName
         avatar: $avatar
