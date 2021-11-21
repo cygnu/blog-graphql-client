@@ -109,7 +109,6 @@ const TabComponent: React.FC = () => {
         },
       });
       const token: string = result.data?.tokenAuth.token;
-      console.log(`===== ${token} =====`, token);
       localStorage.setItem("token", token);
       setCurrentUser(jwtDecode<User>(token));
       token && (window.location.href = "/");
