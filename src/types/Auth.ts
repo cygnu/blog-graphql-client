@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface IFormInputs {
   email: string;
   password: string;
@@ -15,8 +17,6 @@ export interface IAuthPageContext {
 
 export interface IAuthContext {
   currentUser: User | null | undefined;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null | undefined>>;
   accessToken: string | null;
-  signUp: (data: IFormInputs) => Promise<void>;
-  signIn: (data: IFormInputs) => Promise<void>;
-  signOut: () => Promise<void>;
 }
