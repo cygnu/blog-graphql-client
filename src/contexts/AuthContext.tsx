@@ -19,7 +19,7 @@ const AuthProvider: React.FC = (props: any) => {
         ? localStorage.removeItem("token")
         : setCurrentUser(jwtDecodedToken);
     }
-  }, []);
+  }, [accessToken]);
 
   return (
     <AuthContext.Provider
