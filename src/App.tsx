@@ -1,6 +1,6 @@
 import React from "react";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
+import { ApolloClient, ApolloLink ,InMemoryCache, HttpLink, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -29,12 +29,25 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     console.log(`[Network error]: ${networkError}`);
 });
 
+// the auth token is sent to the server on each request due to this middleware
+const authMiddleware = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem('token');
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      authorization: token ? `JWT ${token}` : "",
+    }
+  }));
+
+  return forward(operation);
+});
+
 // If you provide a link chain to ApolloClient, you
 // don't provide the `uri` option.
 const client = new ApolloClient({
   // The `from` function combines an array of individual links
   // into a link chain
-  link: from([errorLink, httpLink]),
+  link: from([authMiddleware, errorLink, httpLink]),
   cache: new InMemoryCache(),
 });
 
