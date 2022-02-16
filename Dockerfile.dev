@@ -1,0 +1,24 @@
+FROM node:14.16-alpine as builder
+
+RUN mkdir -p /work/frontend
+
+WORKDIR /work/frontend
+COPY package*.json ./
+RUN yarn install --silent
+COPY . .
+
+ENV PORT=3000
+RUN yarn run build
+
+
+FROM nginx:1.20.2-alpine
+
+RUN rm -f /etc/nginx/conf.d/defalut.conf
+COPY ./nginx/defalut.conf /etc/nginx/conf.d
+
+COPY --from=builder /work/frontend/build /usr/share/nginx/html
+
+RUN chown nginx.nginx /usr/share/nginx/html/ -R
+
+EXPOSE 80 443
+CMD [ "nginx", "-g", "daemon off;" ]
