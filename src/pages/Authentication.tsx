@@ -1,14 +1,44 @@
 import React, { createContext, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@apollo/client";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { Container } from "@mui/material";
-import { IFormInputs, IAuthPageProps, IAuthPageContext } from "../types/Auth";
+import { IFormInputs, IAuthPageContext, User } from "../types/Auth";
 import { ComInputForm } from "../atoms/ComInputForm";
 import { ComSubmitButton } from "../atoms/ComSubmitButton";
 import { useAuth } from "../contexts/AuthContext";
+import jwtDecode from "jwt-decode";
+import { GET_TOKEN } from "../graphql/mutations";
+import { css } from "@emotion/react";
+
+const containerTabs = css`
+  margin: 15vh auto 0;
+  text-align: center;
+  width: 70%;
+`;
+
+const containerForm = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  @media (min-width: 480px) {
+    max-width: 480px;
+  }
+`;
+
+const cFInputForm = css`
+  margin-top: 0.5em;
+`;
+
+const cFSubmit = css`
+  margin-top: 30px;
+  margin-bottom: 0.5em;
+`;
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -33,6 +63,7 @@ export const Authentication: React.FC = () => {
       <Tabs
         selectedIndex={tabIndex}
         onSelect={(tabIndex) => setTabIndex(tabIndex)}
+        css={containerTabs}
       >
         <TabList>
           <Tab>Login</Tab>
@@ -40,37 +71,56 @@ export const Authentication: React.FC = () => {
         </TabList>
 
         <TabPanel>
-          <TabComponent label="Login" />
+          <TabComponent />
         </TabPanel>
         <TabPanel>
-          <TabComponent label="Register" />
+          <TabComponent />
         </TabPanel>
       </Tabs>
     </AuthPageContext.Provider>
   );
 };
 
-const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
-  const { register, handleSubmit, errors, formState } = useForm<IFormInputs>({
+const TabComponent: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    errors,
+    formState: { isDirty, isValid },
+  } = useForm<IFormInputs>({
     mode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
     resolver: yupResolver(schema),
   });
-  const { isDirty, isValid } = formState;
 
   const { tabIndex } = useContext(AuthPageContext);
-  const { signIn, signUp } = useAuth();
+  const [getToken] = useMutation(GET_TOKEN);
+  const { setCurrentUser } = useAuth();
 
-  const onSubmit = () => {
-    if (tabIndex === 0) {
-      handleSubmit(signIn);
-    } else if (tabIndex === 1) {
-      handleSubmit(signUp);
+  const signIn = handleSubmit(async (data: IFormInputs) => {
+    try {
+      const result = await getToken({
+        variables: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+      const token: string = result.data?.tokenAuth.token;
+      console.log(`===== ${token} =====`, token);
+      localStorage.setItem("token", token);
+      setCurrentUser(jwtDecode<User>(token));
+      token && (window.location.href = "/");
+    } catch (e) {
+      console.log(e);
     }
-  };
+  });
 
   return (
     <Container>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={signIn} css={containerForm}>
         <ComInputForm
           required
           type="email"
@@ -80,6 +130,7 @@ const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
           autoFocus
           register={register}
           error={errors.email}
+          css={cFInputForm}
         />
         <ComInputForm
           required
@@ -89,8 +140,13 @@ const TabComponent: React.FC<IAuthPageProps> = ({ label }) => {
           autoComplete="current-password"
           register={register}
           error={errors.password}
+          css={cFInputForm}
         />
-        <ComSubmitButton label={label} disabled={!(isDirty && isValid)} />
+        <ComSubmitButton
+          label={tabIndex === 0 ? "Login" : "Register"}
+          disabled={!(isDirty && isValid)}
+          css={cFSubmit}
+        />
       </form>
     </Container>
   );
